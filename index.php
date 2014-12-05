@@ -7,6 +7,13 @@
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
+<!-- random names time! -->
+<script src="name_generator.js"></script>
+<script src="names/germanic/male.js"></script>
+<script src="names/germanic/female.js"></script>
+<script src="names/newtestament/male.js"></script>
+<script src="names/newtestament/female.js"></script>
+
 <script type="text/javascript">
 <!--
 $(document).bind("pageinit",function(){
@@ -496,6 +503,13 @@ $(document).bind("pageinit",function(){
 				break;
 		}
 
+		// this is kind of a shitty way to do it
+		// but better than not acknowleding the binary at all?
+		var gender;
+		if ($("input[name='gender']:checked").val() == 'nonbinary') {
+			if (Math.floor(Math.random()*2) == 0) gender = 'male';
+			else gender = 'female';
+		} else gender = $("input[name='gender']:checked").val();
 
 		$('.npc').remove(); // so you can refresh
 		$('.response').remove();
@@ -505,7 +519,7 @@ $(document).bind("pageinit",function(){
 		$(npc).addClass('npc');
 		var html = '<div class="ui-corner-all">' +
 '<div class="ui-bar ui-bar-a">' +
-'<h2>Generated NPC</h2>' +
+'<h2>' + generate_name($('#source').val() + '-' + gender) + '</h2>' +
 '</div>' +
 '<div class="ui-body ui-body-a">' +
 '<ul data-role="listview" data-inset="true">' + 
@@ -1123,7 +1137,8 @@ $(document).bind("pageinit",function(){
 </div> 
 
 <div class="ui-field-contain"> 
-<label for="demeanor">NPC demeanor</label>  <select name="demeanor" id="demeanor" data-inline="true"> 
+<label for="demeanor">NPC demeanor</label>
+<select name="demeanor" id="demeanor" data-inline="true"> 
 <option value="random" selected="selected">random</option> 
 <option value="scheming">scheming</option> 
 <option value="insane">insane</option> 
@@ -1135,6 +1150,25 @@ $(document).bind("pageinit",function(){
 <option value="prejudiced">prejudiced</option> 
 </select> 
 </div> 
+
+<fieldset data-role="controlgroup" data-type="horizontal" class="ui-field-contain">
+<legend>Gender</legend>
+<input type="radio" name="gender" id="male" value="male">
+<label for="male">male</label>
+<input type="radio" name="gender" id="female" value="female">
+<label for="female">female</label>
+<input type="radio" name="gender" id="nonbinary" value="nonbinary" checked="checked">
+<label for="nonbinary">nonbinary/either</label>
+</fieldset>
+
+<div class="ui-field-contain"> 
+<label for="source">Name source</label>
+<select name="source" id="source" data-inline="true"> 
+<option value="germanic">Germanic</option>
+<option value="newtestament">New Testament</option>
+</select>
+</div>
+
 <input type="button" value="Generate" id="generate">
 </form>
 
