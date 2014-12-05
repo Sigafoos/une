@@ -10,6 +10,18 @@
 <!--
 $(document).bind("pageinit",function(){
 	$('#generate').on('click', function() {
+		if ($('#demeanor').val() == 'random') {
+			var roll = Math.floor(Math.random()*8) + 1;
+			if (roll == 1) $('#demeanor').val('scheming').change();
+			else if (roll == 2) $('#demeanor').val('insane').change();
+			else if (roll == 3) $('#demeanor').val('friendly').change();
+			else if (roll == 4) $('#demeanor').val('hostile').change();
+			else if (roll == 5) $('#demeanor').val('inquisitive').change();
+			else if (roll == 6) $('#demeanor').val('knowing').change();
+			else if (roll == 7) $('#demeanor').val('mysterious').change();
+			else $('#demeanor').val('prejudiced').change();
+		}
+			
 		var modifiers = new Array(
 			'superfluous',
 			'inept',
@@ -492,22 +504,8 @@ $(document).bind("pageinit",function(){
 '<li>wants to ' + motivation[1] + '</li>' + 
 '<li>wants to ' + motivation[2] + '</li>' + 
 '</ul>' + 
-'<h2>Determine mood</h2>' +
-'<form>' + 
-'<div class="ui-field-contain">' + 
-'<label for="relationship" class="select">NPC relationship</label>' + 
-'<select name="relationship" id="relationship" data-inline="true">' + 
-'<option value="loved">loved</option>' + 
-'<option value="friendly">friendly</option>' + 
-'<option value="peaceful">peaceful</option>' + 
-'<option value="neutral" selected="selected">neutral</option>' + 
-'<option value="distrustful">distrustful</option>' + 
-'<option value="hostile">hostile</option>' + 
-'<option value="hated">hated</option>' + 
-'</select>' + 
-'</div>' + 
-'<input type="button" data-inline="true" id="moodmodule" value="determine">' + 
-'</form>' + 
+'<button data-inline="true" id="moodmodule">determine mood</button>' + 
+'<button data-inline="true" id="importancemodule">generate discussion topic</button>' + 
 '<div id="mood"></div>' +
 /*
 '<h2>Ask yes/no question</h2>' + 
@@ -539,23 +537,6 @@ $(document).bind("pageinit",function(){
 '</form>' + 
 */
 '<div id="response"></div>' + 
-'<h2>Generate discussion topic</h2>' + 
-'<form>' + 
-'<div class="ui-field-contain">' + 
-'<label for="demeanor">NPC demeanor</label>  <select name="demeanor" id="demeanor" data-inline="true">' + 
-'<option value="random">random</option>' + 
-'<option value="scheming">scheming</option>' + 
-'<option value="insane">insane</option>' + 
-'<option value="friendly">friendly</option>' + 
-'<option value="hostile">hostile</option>' + 
-'<option value="inquisitive">inquisitive</option>' + 
-'<option value="knowing">knowing</option>' + 
-'<option value="mysterious">mysterious</option>' + 
-'<option value="prejudiced">prejudiced</option>' + 
-'</select>' + 
-'</div>' + 
-'<input type="button" data-inline="true" id="importancemodule" value="generate">' + 
-'</form>' + 
 '<div id="importance"></div>';
 
 		$(npc).html(html);
@@ -935,40 +916,10 @@ $(document).bind("pageinit",function(){
 
 		$('#importancemodule').on('click',function(){
 			var roll;
-			var demeanor = $('#demeanor').val();
-			if (demeanor == 'random') {
-				roll = Math.floor(Math.random()*8) + 1;
-				if (roll == 1) {
-					demeanor = 'scheming';
-					$('#demeanor').val('scheming').change();
-				} else if (roll == 2) {
-					demeanor = 'insane';
-					$('#demeanor').val('insane').change();
-				} else if (roll == 3) {
-					demeanor = 'friendly';
-					$('#demeanor').val('friendly').change();
-				} else if (roll == 4) {
-					demeanor = 'hostile';
-					$('#demeanor').val('hostile').change();
-				} else if (roll == 5) {
-					demeanor = 'inquisitive';
-					$('#demeanor').val('inquisitive').change();
-				} else if (roll == 6) {
-					demeanor = 'knowing';
-					$('#demeanor').val('knowing').change();
-				} else if (roll == 7) {
-					demeanor = 'mysterious';
-					$('#demeanor').val('mysterious').change();
-				} else {
-					demeanor = 'prejudiced';
-					$('#demeanor').val('prejudiced').change();
-			
-				}
-			}
 
 			var bearing;
 			roll = Math.floor(Math.random()*10) + 1;
-			switch (demeanor) {
+			switch ($('#demeanor').val()) {
 				case 'scheming':
 					if (roll == 1) bearing = 'intent';
 					else if (roll == 2) bearing = 'bargain';
@@ -1114,7 +1065,7 @@ $(document).bind("pageinit",function(){
 			$('.importance').remove();
 			var importance = document.createElement('div');
 			$(importance).addClass('importance');
-			$(importance).html('<p>the ' + demeanor + ' NPC speaks of ' + bearing + ' regarding ' + focus + '</p>');
+			$(importance).html('<p>the ' + $('#demeanor').val() + ' NPC speaks of ' + bearing + ' regarding ' + focus + '</p>');
 			$(importance).appendTo('#importance').trigger('create');
 		});
 	});
@@ -1145,6 +1096,32 @@ $(document).bind("pageinit",function(){
 <label for="r5">5</label>
 </fieldset>
 
+<div class="ui-field-contain"> 
+<label for="relationship" class="select">NPC relationship</label> 
+<select name="relationship" id="relationship" data-inline="true"> 
+<option value="loved">loved</option> 
+<option value="friendly">friendly</option> 
+<option value="peaceful">peaceful</option> 
+<option value="neutral" selected="selected">neutral</option> 
+<option value="distrustful">distrustful</option> 
+<option value="hostile">hostile</option> 
+<option value="hated">hated</option> 
+</select> 
+</div> 
+
+<div class="ui-field-contain"> 
+<label for="demeanor">NPC demeanor</label>  <select name="demeanor" id="demeanor" data-inline="true"> 
+<option value="random" selected="selected">random</option> 
+<option value="scheming">scheming</option> 
+<option value="insane">insane</option> 
+<option value="friendly">friendly</option> 
+<option value="hostile">hostile</option> 
+<option value="inquisitive">inquisitive</option> 
+<option value="knowing">knowing</option> 
+<option value="mysterious">mysterious</option> 
+<option value="prejudiced">prejudiced</option> 
+</select> 
+</div> 
 <input type="button" value="Generate" id="generate">
 </form>
 
