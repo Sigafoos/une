@@ -1134,7 +1134,7 @@ $(document).bind("pageinit",function(){
 <div id="npc"></div>
 </div>
 
-<div data-role="footer"><a href="#about">About</a></div>
+<div data-role="footer" data-position="fixed"><h2><a href="#about">About</a></h2></div>
 </div>
 
 <div data-role="page" id="about">
