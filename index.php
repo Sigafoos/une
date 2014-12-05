@@ -1119,7 +1119,10 @@ $(document).bind("pageinit",function(){
 </head>
 <body>
 <div data-role="page" id="form">
-<div data-role="header"><h1>UNE</h1></div>
+<div data-role="header">
+<h1>UNE Webapp Generator</h1>
+<div class="ui-bar ui-bar-a"><p>For full rules see <a href="http://rpg.drivethrustuff.com/product/134163/UNE-The-Universal-NPC-Emulator-rev">UNE at DriveThruRPG</a><p></div>
+</div>
 
 <div data-role="content">
 <form>
