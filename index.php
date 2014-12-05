@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>&Uuml;NE - Universal NPC Emulator</title>
+<title>UNE - Universal NPC Emulator</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -442,8 +442,14 @@ $(document).bind("pageinit",function(){
 		var noun = nouns[Math.floor(Math.random()*nouns.length)];
 
 		var motivation = new Array();
+		var currnoun;
+		var currnouns = new Array();
 		for (var i = 0; i < 3; i++) {
-			motivation[i] = motivationverbs[Math.floor(Math.random()*motivationverbs.length)] + ' ' + motivationnouns[Math.floor(Math.random()*motivationnouns.length)];
+			do currnoun = motivationnouns[Math.floor(Math.random()*motivationnouns.length)];
+			while ($.inArray(currnoun, currnouns) !== -1);
+			currnouns.push(currnoun); // so we don't duplicate
+
+			motivation[i] = motivationverbs[Math.floor(Math.random()*motivationverbs.length)] + ' ' + currnoun;
 		}
 
 		var roll = Math.floor(Math.random()*100) + 1;
@@ -1085,7 +1091,7 @@ $(document).bind("pageinit",function(){
 </head>
 <body>
 <div data-role="page" id="form">
-<div data-role="header"><h1>&Uuml;NE</h1></div>
+<div data-role="header"><h1>UNE</h1></div>
 
 <div data-role="content">
 <form>
