@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>&Uuml;NE - Universal NPC Emulator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
@@ -1134,14 +1135,7 @@ $(document).bind("pageinit",function(){
 <div id="npc"></div>
 </div>
 
-<div data-role="footer" data-position="fixed"><h2><a href="#about">About</a></h2></div>
-</div>
-
-<div data-role="page" id="about">
-<div data-role="header"><h1>About</h1></div>
-<div data-role="content">
-<p>what dis</p>
-</div>
+<div data-role="footer" data-position="fixed"><h2>All content &copy; <a href="http://conjecturegames.com/une/">Conjecture Games</a></h2></div>
 </div>
 </body>
 </html>
