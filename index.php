@@ -1008,80 +1008,113 @@ $(document).bind("pageinit",function(){
 					else bearing = 'celebration';
 					break;
 
-				case 'scheming':
-					if (roll == 1) bearing = 'z';
-					else if (roll == 2) bearing = 'z';
-					else if (roll == 3) bearing = 'z';
-					else if (roll == 4) bearing = 'z';
-					else if (roll == 5) bearing = 'z';
-					else if (roll == 6) bearing = 'z';
-					else if (roll == 7) bearing = 'z';
-					else if (roll == 8) bearing = 'z';
-					else if (roll == 9) bearing = 'z';
-					else bearing = 'z';
+				case 'hostile':
+					if (roll == 1) bearing = 'death';
+					else if (roll == 2) bearing = 'capture';
+					else if (roll == 3) bearing = 'judgment';
+					else if (roll == 4) bearing = 'combat';
+					else if (roll == 5) bearing = 'surrender';
+					else if (roll == 6) bearing = 'rage';
+					else if (roll == 7) bearing = 'resentment';
+					else if (roll == 8) bearing = 'submission';
+					else if (roll == 9) bearing = 'injury';
+					else bearing = 'destruction';
 					break;
 
-				case 'scheming':
-					if (roll == 1) bearing = 'z';
-					else if (roll == 2) bearing = 'z';
-					else if (roll == 3) bearing = 'z';
-					else if (roll == 4) bearing = 'z';
-					else if (roll == 5) bearing = 'z';
-					else if (roll == 6) bearing = 'z';
-					else if (roll == 7) bearing = 'z';
-					else if (roll == 8) bearing = 'z';
-					else if (roll == 9) bearing = 'z';
-					else bearing = 'z';
+				case 'inquisitive':
+					if (roll == 1) bearing = 'questions';
+					else if (roll == 2) bearing = 'investigation';
+					else if (roll == 3) bearing = 'interest';
+					else if (roll == 4) bearing = 'demand';
+					else if (roll == 5) bearing = 'suspicion';
+					else if (roll == 6) bearing = 'request';
+					else if (roll == 7) bearing = 'curiosity';
+					else if (roll == 8) bearing = 'skepticism';
+					else if (roll == 9) bearing = 'command';
+					else bearing = 'petition';
 					break;
 
-				case 'scheming':
-					if (roll == 1) bearing = 'z';
-					else if (roll == 2) bearing = 'z';
-					else if (roll == 3) bearing = 'z';
-					else if (roll == 4) bearing = 'z';
-					else if (roll == 5) bearing = 'z';
-					else if (roll == 6) bearing = 'z';
-					else if (roll == 7) bearing = 'z';
-					else if (roll == 8) bearing = 'z';
-					else if (roll == 9) bearing = 'z';
-					else bearing = 'z';
+				case 'knowing':
+					if (roll == 1) bearing = 'report';
+					else if (roll == 2) bearing = 'effects';
+					else if (roll == 3) bearing = 'examination';
+					else if (roll == 4) bearing = 'records';
+					else if (roll == 5) bearing = 'account';
+					else if (roll == 6) bearing = 'news';
+					else if (roll == 7) bearing = 'history';
+					else if (roll == 8) bearing = 'telling';
+					else if (roll == 9) bearing = 'discourse';
+					else bearing = 'speech';
 					break;
 
-				case 'scheming':
-					if (roll == 1) bearing = 'z';
-					else if (roll == 2) bearing = 'z';
-					else if (roll == 3) bearing = 'z';
-					else if (roll == 4) bearing = 'z';
-					else if (roll == 5) bearing = 'z';
-					else if (roll == 6) bearing = 'z';
-					else if (roll == 7) bearing = 'z';
-					else if (roll == 8) bearing = 'z';
-					else if (roll == 9) bearing = 'z';
-					else bearing = 'z';
+				case 'mysterious':
+					if (roll == 1) bearing = 'rumor';
+					else if (roll == 2) bearing = 'uncertainty';
+					else if (roll == 3) bearing = 'secrets';
+					else if (roll == 4) bearing = 'misdirection';
+					else if (roll == 5) bearing = 'whispers';
+					else if (roll == 6) bearing = 'lies';
+					else if (roll == 7) bearing = 'shadows';
+					else if (roll == 8) bearing = 'enigma';
+					else if (roll == 9) bearing = 'obscurity';
+					else bearing = 'conundrum';
 					break;
 
-				case 'scheming':
-					if (roll == 1) bearing = 'z';
-					else if (roll == 2) bearing = 'z';
-					else if (roll == 3) bearing = 'z';
-					else if (roll == 4) bearing = 'z';
-					else if (roll == 5) bearing = 'z';
-					else if (roll == 6) bearing = 'z';
-					else if (roll == 7) bearing = 'z';
-					else if (roll == 8) bearing = 'z';
-					else if (roll == 9) bearing = 'z';
-					else bearing = 'z';
+				case 'prejudiced':
+					if (roll == 1) bearing = 'reputation';
+					else if (roll == 2) bearing = 'doubt';
+					else if (roll == 3) bearing = 'bias';
+					else if (roll == 4) bearing = 'dislike';
+					else if (roll == 5) bearing = 'partiality';
+					else if (roll == 6) bearing = 'belief';
+					else if (roll == 7) bearing = 'view';
+					else if (roll == 8) bearing = 'discrimination';
+					else if (roll == 9) bearing = 'assessment';
+					else bearing = 'difference';
 					break;
 
 			}
 
-			var focuses = new Array(
-			);
+			var focus;
+			roll = Math.floor(Math.random()*100) + 1;
+			if (roll < 4) focus = 'current scene';
+			else if (roll < 7) focus = 'last story';
+			else if (roll < 10) focus = 'equipment';
+			else if (roll < 13) focus = 'parents';
+			else if (roll < 16) focus = 'history';
+			else if (roll < 19) focus = 'retainers';
+			else if (roll < 22) focus = 'wealth';
+			else if (roll < 25) focus = 'relics';
+			else if (roll < 28) focus = 'last action';
+			else if (roll < 31) focus = 'skills';
+			else if (roll < 34) focus = 'superiors';
+			else if (roll < 37) focus = 'fame';
+			else if (roll < 40) focus = 'campaign';
+			else if (roll < 43) focus = 'future action';
+			else if (roll < 46) focus = 'friends';
+			else if (roll < 49) focus = 'allies';
+			else if (roll < 52) focus = 'last scene';
+			else if (roll < 55) focus = 'contacts';
+			else if (roll < 58) focus = 'flaws';
+			else if (roll < 61) focus = 'antagonist';
+			else if (roll < 64) focus = 'rewards';
+			else if (roll < 67) focus = 'experience';
+			else if (roll < 70) focus = 'knowledge';
+			else if (roll < 73) focus = 'recent scene';
+			else if (roll < 76) focus = 'community';
+			else if (roll < 79) focus = 'treasure';
+			else if (roll < 82) focus = 'the character';
+			else if (roll < 85) focus = 'current story';
+			else if (roll < 88) focus = 'family';
+			else if (roll < 91) focus = 'power';
+			else if (roll < 94) focus = 'weapons';
+			else if (roll < 97) focus = 'previous scene';
+			else focus = 'enemy';
 
 			$('.importance').remove();
 			var importance = document.createElement('div');
 			$(importance).addClass('importance');
-			$(importance).html('<p>not yet configured</p>');
+			$(importance).html('<p>the ' + demeanor + ' NPC speaks of ' + bearing + ' regarding ' + focus + '</p>');
 			$(importance).appendTo('#importance').trigger('create');
 		});
 	});
