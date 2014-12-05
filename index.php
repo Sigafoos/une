@@ -496,8 +496,12 @@ $(document).bind("pageinit",function(){
 
 		var npc = document.createElement('div');
 		$(npc).addClass('npc');
-		var html = '<h2>Generated NPC</h2>' + 
-'<ul data-role="listview">' + 
+		var html = '<div class="ui-corner-all">' +
+'<div class="ui-bar ui-bar-a">' +
+'<h2>Generated NPC</h2>' +
+'</div>' +
+'<div class="ui-body ui-body-a">' +
+'<ul data-role="listview" data-inset="true">' + 
 '<li>' + modifier + ' ' + noun + '</li>' + 
 '<li>' + powerlevel + '</li>' + 
 '<li>wants to ' + motivation[0] + '</li>' + 
@@ -537,10 +541,12 @@ $(document).bind("pageinit",function(){
 '</form>' + 
 */
 '<div id="response"></div>' + 
-'<div id="importance"></div>';
+'<div id="importance"></div>' +
+'</div>' +
+'</div>';
 
 		$(npc).html(html);
-		$(npc).appendTo('.ui-page').trigger('create');
+		$(npc).appendTo('#npc').trigger('create');
 
 
 		$('#moodmodule').on('click',function(){
@@ -1077,7 +1083,7 @@ $(document).bind("pageinit",function(){
 </script>
 </head>
 <body>
-<div data-role="page">
+<div data-role="page" id="form">
 <div data-role="header"><h1>&Uuml;NE</h1></div>
 
 <div data-role="content">
@@ -1125,6 +1131,16 @@ $(document).bind("pageinit",function(){
 <input type="button" value="Generate" id="generate">
 </form>
 
+<div id="npc"></div>
+</div>
+
+<div data-role="footer"><a href="#about">About</a></div>
+</div>
+
+<div data-role="page" id="about">
+<div data-role="header"><h1>About</h1></div>
+<div data-role="content">
+<p>what dis</p>
 </div>
 </div>
 </body>
