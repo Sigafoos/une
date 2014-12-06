@@ -17,6 +17,23 @@
 <script type="text/javascript">
 <!--
 $(document).bind("pageinit",function(){
+	function update_sidebar() {	
+		var list = '';
+
+		if (localStorage.length == 0) {
+			list = '<li>No saved NPCs</li>';
+		} else {
+			for (var i = 0; i < localStorage.length; i++) list += '<li id="saved' + i + '"><a href="#">' + localStorage.key(i) + '</a></li>';
+		}
+
+		$('#menu ul').html(list);
+		$('#menu ul').listview('refresh');
+		$('#menu').trigger('updatelayout');
+	}
+
+	// do it when the page loads
+	update_sidebar();
+	
 	// re-enable form saves if it's been generated
 	$('form').on('change',function(){
 		if ($('#name a').html()) $('#save').removeAttr('disabled');
@@ -764,21 +781,12 @@ $(document).bind("pageinit",function(){
 		else $('#demeanor').val('prejudiced').change();
 	}
 
-	$('#generate').on('click', function() {
-		$('#save').removeAttr('disabled');
-
-		var descriptor = get_descriptor();
-
-		var motivation = new Array();
-		var curr;
-		var currnouns = new Array();
-		for (var i = 0; i < 3; i++) {
-			do curr = get_motivation();
-			while ($.inArray(curr[1], currnouns) !== -1);
-			currnouns.push(curr[1]); // so we don't duplicate
-
-			motivation[i] = curr;
-		}
+	function load(data) {
+		$('#r' + data['rlevel']).attr('checked');
+		$('#relationship').val(data['relationship']).change();
+		$('#demeanor').val(data['demeanor']).change();
+		$('#' + data['gender']).attr('checked');
+		$('#source').val(data['source']).change();
 
 		$('.npc').remove(); // so you can refresh
 		$('.response').remove();
@@ -788,19 +796,19 @@ $(document).bind("pageinit",function(){
 		$(npc).addClass('npc');
 		var html = '<ul data-role="listview" data-icon="refresh" data-inset="true">' + 
 '<li data-role="list-divider">Name</li>' +
-'<li id="name"><a href="#">' + get_name() + '</a></li>' +
+'<li id="name"><a href="#">' + data['name'] + '</a></li>' +
 '<li data-role="list-divider">Descriptor</li>' +
-'<li id="descriptor"><a href="#">' + descriptor[0] + ' ' + descriptor[1] + '</a></li>' + 
+'<li id="descriptor"><a href="#">' + data['descriptor'][0] + ' ' + data['descriptor'][1] + '</a></li>' + 
 '<li data-role="list-divider">Power level</li>' + 
-'<li id="powerlevel"><a href="#">' + get_powerlevel() + '</a></li>' + 
+'<li id="powerlevel"><a href="#">' + data['powerlevel'] + '</a></li>' + 
 '<li data-role="list-divider">Motivations</li>' + 
-'<li class="motivation" id="motivation1"><a href="#">' + motivation[0][0] + ' ' + motivation[0][1] + '</a></li>' + 
-'<li class="motivation" id="motivation2"><a href="#">' + motivation[1][0] + ' ' + motivation[1][1] + '</a></li>' + 
-'<li class="motivation" id="motivation3"><a href="#">' + motivation[2][0] + ' ' + motivation[2][1] + '</a></li>' + 
+'<li class="motivation" id="motivation1"><a href="#">' + data['motivation1'][0] + ' ' + data['motivation1'][1] + '</a></li>' + 
+'<li class="motivation" id="motivation2"><a href="#">' + data['motivation2'][0] + ' ' + data['motivation2'][1] + '</a></li>' + 
+'<li class="motivation" id="motivation3"><a href="#">' + data['motivation3'][0] + ' ' + data['motivation3'][1] + '</a></li>' + 
 '<li data-role="list-divider">Mood</li>' +
-'<li id="mood"><a href="#">' + get_mood() + '</a></li>' +
+'<li id="mood"><a href="#">' + data['mood'] + '</a></li>' +
 '<li data-role="list-divider">Wants to discuss</li>' +
-'<li id="discussion"><a href="#">' + get_discussion() + '</a></li>' +
+'<li id="discussion"><a href="#">' + data['discussion'] + '</a></li>' +
 '</ul>';
 /*
 '<h2>Ask yes/no question</h2>' + 
@@ -834,6 +842,39 @@ $(document).bind("pageinit",function(){
 
 		$(npc).html(html);
 		$(npc).appendTo('#npc').trigger('create');
+	}
+
+	$('#generate').on('click', function() {
+		$('#save').removeAttr('disabled');
+
+		var motivation = new Array();
+		var curr;
+		var currnouns = new Array();
+		for (var i = 0; i < 3; i++) {
+			do curr = get_motivation();
+			while ($.inArray(curr[1], currnouns) !== -1);
+			currnouns.push(curr[1]); // so we don't duplicate
+
+			motivation[i] = curr;
+		}
+		var npc = {
+			'rlevel' : $("input[name='rlevel']:checked").val(),
+			'relationship' : $('#relationship').val(),
+			'discussion' : get_discussion(),
+			'demeanor' : $('#demeanor').val(),
+			'gender' : $("input[name='gender']:checked").val(),
+			'source' : $('#source').val(),
+			'name' : get_name(),
+			'descriptor' : get_descriptor(),
+			'powerlevel' : get_powerlevel(),
+			'motivation1' : motivation[0],
+			'motivation2' : motivation[1],
+			'motivation3' : motivation[2],
+			'mood' : get_mood(),
+			'currnouns' : currnouns
+			};
+
+		load(npc);
 
 		// currently not functional or able to be called
 		$('#responsemodule').on('click',function(){
@@ -1180,6 +1221,8 @@ $(document).bind("pageinit",function(){
 
 			// yes, if you change the name it will be duplicated. I'll fix that eventually.
 			localStorage.setItem(npc['name'],JSON.stringify(npc));
+
+			update_sidebar();
 			$('#save').attr('disabled','');
 		});
 
@@ -1194,6 +1237,7 @@ $(document).bind("pageinit",function(){
 <body>
 <div data-role="page" id="form">
 <div data-role="header">
+<a href="#menu" id="menubutton" class="ui-btn-left ui-btn ui-btn-icon-left ui-icon-bars ui-btn-icon-notext ui-nodisc-icon ui-alt-icon">Menu</a>
 <h1>UNE Webapp Generator</h1>
 <div class="ui-bar ui-bar-a"><p>For full rules see <a href="http://rpg.drivethrustuff.com/product/134163/UNE-The-Universal-NPC-Emulator-rev">UNE at DriveThruRPG</a><p></div>
 </div>
@@ -1270,6 +1314,13 @@ $(document).bind("pageinit",function(){
 </div>
 
 <div data-role="footer" data-position="fixed"><h2>All content &copy; <a href="http://conjecturegames.com/une/">Conjecture Games</a></h2></div>
+
+<div data-role="panel" id="menu" data-display="overlay" data-theme="a">
+<h2 class="ui-bar ui-bar-a">Saved NPCs</h2>
+<ul data-role="listview">
+<li>No saved</li>
+</ul>
+</div>
 </div>
 </body>
 </html>
