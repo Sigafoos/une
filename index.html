@@ -31,6 +31,12 @@ $(document).bind("pageinit",function(){
 		$('#menu ul').html(list);
 		$('#menu ul').listview('refresh');
 		$('#menu').trigger('updatelayout');
+
+		$('#menu li a').on('click',function() {
+			var npc = JSON.parse(localStorage.getItem(localStorage.key($(this).parent().attr('id').substr(-1))));
+			load(npc);
+		});
+	
 	}
 
 	// do it when the page loads
@@ -910,11 +916,6 @@ $(document).bind("pageinit",function(){
 
 
 	}
-
-	$('#menu li a').on('click',function() {
-		var npc = JSON.parse(localStorage.getItem(localStorage.key($(this).parent().attr('id').substr(-1))));
-		load(npc);
-	});
 
 	$('#generate').on('click', function() {
 		$('#save').removeAttr('disabled');
