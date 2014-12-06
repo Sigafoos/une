@@ -806,9 +806,9 @@ $(document).bind("pageinit",function(){
 
 		var output = document.createElement('div');
 		$(output).addClass('npc');
-		var html = '<ul data-role="listview" data-icon="refresh" data-inset="true">' + 
+		var html = '<ul data-role="listview" data-icon="refresh" data-split-icon="edit" data-inset="true">' + 
 '<li data-role="list-divider">Name</li>' +
-'<li id="name"><a href="#">' + data['name'] + '</a></li>' +
+'<li id="name"><a href="#">' + data['name'] + '</a><a href="#customname" data-rel="popup" data-position-to="window" data-transition="pop">edit</a></li>' +
 '<li data-role="list-divider">Descriptor</li>' +
 '<li id="descriptor"><a href="#">' + data['descriptor'] + '</a></li>' + 
 '<li data-role="list-divider">Power level</li>' + 
@@ -867,7 +867,7 @@ $(document).bind("pageinit",function(){
 			$('#save').removeAttr('disabled');
 		});
 
-		$('#name a').on('click',function(){
+		$('#name a').not('.edit').on('click',function(){
 			new_name();
 		});
 
@@ -914,6 +914,13 @@ $(document).bind("pageinit",function(){
 			$('#save').attr('disabled','');
 		});
 
+	$('#customname').submit(function(event){
+		event.preventDefault();
+		npc['name'] = $('#newname').val();
+		$('#name a').html(npc['name']);
+		$('#save').removeAttr('disabled');
+		$('#customname').popup('close');
+	});
 
 	}
 
@@ -1325,6 +1332,16 @@ $(document).bind("pageinit",function(){
 <ul data-role="listview" data-split-icon="delete">
 </ul>
 </div>
+
+<div data-role="popup" id="customname" data-overlay-theme="a">
+<form>
+<div style="padding:10px">
+<h3>Edit name</h3>
+<label for="newname">New name</label>
+<input type="text" name="newname" id="newname" placeholder="name">
+<button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Change</button>
+</div>
+</form>
 </div>
 </body>
 </html>
