@@ -18,14 +18,20 @@
 <!--
 $(document).bind("pageinit",function(){
 	var currnouns = new Array();
+	var npc = {};
 
 	function update_sidebar() {	
 		var list = '';
+		var tmp;
 
 		if (localStorage.length == 0) {
 			list = '<li>No saved NPCs</li>';
 		} else {
-			for (var i = 0; i < localStorage.length; i++) list += '<li id="saved' + i + '"><a href="#">' + localStorage.key(i) + '</a></li>';
+			for (var i = 0; i < localStorage.length; i++) {
+				// maybe i isn't necessary? seems easier though
+				tmp = JSON.parse(localStorage.getItem(localStorage.key(i)));
+				list += '<li id="saved' + i + '"><a href="#">' + tmp['name'] + '</a></li>';
+			}
 		}
 
 		$('#menu ul').html(list);
@@ -33,7 +39,7 @@ $(document).bind("pageinit",function(){
 		$('#menu').trigger('updatelayout');
 
 		$('#menu li a').on('click',function() {
-			var npc = JSON.parse(localStorage.getItem(localStorage.key($(this).parent().attr('id').substr(-1))));
+			npc = JSON.parse(localStorage.getItem(localStorage.key($(this).parent().attr('id').substr(-1))));
 			load(npc);
 		});
 	
@@ -800,8 +806,8 @@ $(document).bind("pageinit",function(){
 		$('.response').remove();
 		$('.discussion').remove();
 
-		var npc = document.createElement('div');
-		$(npc).addClass('npc');
+		var output = document.createElement('div');
+		$(output).addClass('npc');
 		var html = '<ul data-role="listview" data-icon="refresh" data-inset="true">' + 
 '<li data-role="list-divider">Name</li>' +
 '<li id="name"><a href="#">' + data['name'] + '</a></li>' +
@@ -848,8 +854,8 @@ $(document).bind("pageinit",function(){
 '</form>' + 
 */
 
-		$(npc).html(html);
-		$(npc).appendTo('#npc').trigger('create');
+		$(output).html(html);
+		$(output).appendTo('#npc').trigger('create');
 		$('#save').attr('disabled','');
 		
 
@@ -889,27 +895,23 @@ $(document).bind("pageinit",function(){
 
 		$('#save').on('click',function(event){
 			event.preventDefault();
+			// update if we've changed things
+			npc['rlevel'] = $("input[name='rlevel']:checked").val();
+			npc['relationship'] = $('#relationship').val();
+			npc['demeanor'] = $('#demeanor').val();
+			npc['gender'] = $("input[name='gender']:checked").val();
+			npc['source'] = $('#source').val();
+			npc['name'] = $('#name a').html();
+			npc['descriptor'] = $('#descriptor a').html();
+			npc['powerlevel'] = $('#powerlevel a').html();
+			npc['motivation1'] = $('#motivation1 a').html();
+			npc['motivation2'] = $('#motivation2 a').html();
+			npc['motivation3'] = $('#motivation3 a').html();
+			npc['mood'] = $('#mood a').html();
+			npc['discussion'] = $('#discussion a').html();
+			npc['currnouns'] = currnouns;
 
-			var npc = {
-			'rlevel' : $("input[name='rlevel']:checked").val(),
-			'relationship' : $('#relationship').val(),
-			'demeanor' : $('#demeanor').val(),
-			'gender' : $("input[name='gender']:checked").val(),
-			'source' : $('#source').val(),
-			'name' : $('#name a').html(),
-			'descriptor' : $('#descriptor a').html(),
-			'powerlevel' : $('#powerlevel a').html(),
-			'motivation1' : $('#motivation1 a').html(),
-			'motivation2' : $('#motivation2 a').html(),
-			'motivation3' : $('#motivation3 a').html(),
-			'mood' : $('#mood a').html(),
-			'discussion' : $('#discussion a').html(),
-			'currnouns' : currnouns
-			};
-
-			// yes, if you change the name it will be duplicated. I'll fix that eventually.
-			localStorage.setItem(npc['name'],JSON.stringify(npc));
-
+			localStorage.setItem(npc['id'],JSON.stringify(npc));
 			update_sidebar();
 			$('#save').attr('disabled','');
 		});
@@ -929,7 +931,8 @@ $(document).bind("pageinit",function(){
 
 			motivation[i] = curr[0] + ' ' + curr[1];
 		}
-		var npc = {
+		npc = {
+			'id' : Date.now(),
 			'rlevel' : $("input[name='rlevel']:checked").val(),
 			'relationship' : $('#relationship').val(),
 			'discussion' : get_discussion(),
