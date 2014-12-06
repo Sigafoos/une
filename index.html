@@ -30,7 +30,7 @@ $(document).bind("pageinit",function(){
 			for (var i = 0; i < localStorage.length; i++) {
 				// maybe i isn't necessary? seems easier though
 				tmp = JSON.parse(localStorage.getItem(localStorage.key(i)));
-				list += '<li id="saved' + i + '"><a href="#">' + tmp['name'] + '</a></li>';
+				list += '<li id="saved' + i + '"><a href="#">' + tmp['name'] + '</a><a href="#" class="delete">delete</a></li>';
 			}
 		}
 
@@ -38,9 +38,16 @@ $(document).bind("pageinit",function(){
 		$('#menu ul').listview('refresh');
 		$('#menu').trigger('updatelayout');
 
-		$('#menu li a').on('click',function() {
+		$('#menu li a').not('.delete').on('click',function() {
 			npc = JSON.parse(localStorage.getItem(localStorage.key($(this).parent().attr('id').substr(-1))));
 			load(npc);
+		});
+
+		$('#menu .delete').on('click',function(){
+			var id = $(this).parent().attr('id').substr(-1);
+			localStorage.removeItem(localStorage.key(id));
+			$(this).parent().fadeOut(400);
+			setTimeout(update_sidebar,400);
 		});
 	
 	}
@@ -59,16 +66,7 @@ $(document).bind("pageinit",function(){
 	});
 
 	function new_name() {
-		name = get_name();
-
-		// have we saved this NPC before? if so, let's rename
-		var stored = localStorage.getItem($('#name a').html());
-		if (stored) {
-			localStorage.setItem(name, stored);
-			localStorage.removeItem($('#name a').html());
-		}
-	
-		$('#name a').html(name);
+		$('#name a').html(get_name());
 		$('#save').removeAttr('disabled');
 	}
 
@@ -808,9 +806,9 @@ $(document).bind("pageinit",function(){
 
 		var output = document.createElement('div');
 		$(output).addClass('npc');
-		var html = '<ul data-role="listview" data-icon="refresh" data-inset="true">' + 
+		var html = '<ul data-role="listview" data-icon="refresh" data-split-icon="edit" data-inset="true">' + 
 '<li data-role="list-divider">Name</li>' +
-'<li id="name"><a href="#">' + data['name'] + '</a></li>' +
+'<li id="name"><a href="#">' + data['name'] + '</a><a href="#customname" data-rel="popup" data-position-to="window" data-transition="pop">edit</a></li>' +
 '<li data-role="list-divider">Descriptor</li>' +
 '<li id="descriptor"><a href="#">' + data['descriptor'] + '</a></li>' + 
 '<li data-role="list-divider">Power level</li>' + 
@@ -869,7 +867,7 @@ $(document).bind("pageinit",function(){
 			$('#save').removeAttr('disabled');
 		});
 
-		$('#name a').on('click',function(){
+		$('#name a').not('.edit').on('click',function(){
 			new_name();
 		});
 
@@ -916,6 +914,13 @@ $(document).bind("pageinit",function(){
 			$('#save').attr('disabled','');
 		});
 
+	$('#customname').submit(function(event){
+		event.preventDefault();
+		npc['name'] = $('#newname').val();
+		$('#name a').html(npc['name']);
+		$('#save').removeAttr('disabled');
+		$('#customname').popup('close');
+	});
 
 	}
 
@@ -1323,11 +1328,20 @@ $(document).bind("pageinit",function(){
 <div data-role="footer" data-position="fixed"><h2>All content &copy; <a href="http://conjecturegames.com/une/">Conjecture Games</a></h2></div>
 
 <div data-role="panel" id="menu" data-display="overlay" data-theme="a">
-<h2 class="ui-bar ui-bar-a">Saved NPCs</h2>
-<ul data-role="listview">
-<li>No saved</li>
+<h2 class="ui-bar ui-bar-a">Load NPC</h2>
+<ul data-role="listview" data-split-icon="delete">
 </ul>
 </div>
+
+<div data-role="popup" id="customname" data-overlay-theme="a">
+<form>
+<div style="padding:10px">
+<h3>Edit name</h3>
+<label for="newname">New name</label>
+<input type="text" name="newname" id="newname" placeholder="name">
+<button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Change</button>
+</div>
+</form>
 </div>
 </body>
 </html>
