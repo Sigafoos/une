@@ -531,9 +531,9 @@ $(document).bind("pageinit",function(){
 '</ul>' +
 '<h3>Motivations</h3>' +
 '<ul data-role="listview" data-inset="true" id="motivations">' + 
-'<li id="motivation1" data-icon="refresh"><a href="#">' + motivation[0][0] + ' ' + motivation[0][1] + '</a></li>' + 
-'<li id="motivation2" data-icon="refresh"><a href="#">' + motivation[1][0] + ' ' + motivation[1][1] + '</a></li>' + 
-'<li id="motivation3" data-icon="refresh"><a href="#">' + motivation[2][0] + ' ' + motivation[2][1] + '</a></li>' + 
+'<li class="motivation" id="motivation1" data-icon="refresh"><a href="#">' + motivation[0][0] + ' ' + motivation[0][1] + '</a></li>' + 
+'<li class="motivation" id="motivation2" data-icon="refresh"><a href="#">' + motivation[1][0] + ' ' + motivation[1][1] + '</a></li>' + 
+'<li class="motivation" id="motivation3" data-icon="refresh"><a href="#">' + motivation[2][0] + ' ' + motivation[2][1] + '</a></li>' + 
 '</ul>' + 
 '<button data-inline="true" id="moodmodule">determine mood</button>' + 
 '<button data-inline="true" id="importancemodule">generate discussion topic</button>' + 
@@ -1101,7 +1101,8 @@ $(document).bind("pageinit",function(){
 			$(importance).html('<p>the ' + $('#demeanor').val() + ' NPC speaks of ' + bearing + ' regarding ' + focus + '</p>');
 			$(importance).appendTo('#importance').trigger('create');
 		});
-		$('#motivations a').on('click',function(){
+
+		$('.motivation a').on('click',function(){
 			var newmotivation;
 			do newmotivation = get_motivation();
 			while ($.inArray(newmotivation[1], currnouns) !== -1);
