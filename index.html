@@ -265,7 +265,7 @@ $(document).bind("pageinit",function(){
 			'warrior'
 			);
 
-		return new Array(modifiers[Math.floor(Math.random()*modifiers.length)], nouns[Math.floor(Math.random()*nouns.length)]);
+		return modifiers[Math.floor(Math.random()*modifiers.length)] + ' ' + nouns[Math.floor(Math.random()*nouns.length)];
 	}
 
 	function get_motivation() {
@@ -798,13 +798,13 @@ $(document).bind("pageinit",function(){
 '<li data-role="list-divider">Name</li>' +
 '<li id="name"><a href="#">' + data['name'] + '</a></li>' +
 '<li data-role="list-divider">Descriptor</li>' +
-'<li id="descriptor"><a href="#">' + data['descriptor'][0] + ' ' + data['descriptor'][1] + '</a></li>' + 
+'<li id="descriptor"><a href="#">' + data['descriptor'] + '</a></li>' + 
 '<li data-role="list-divider">Power level</li>' + 
 '<li id="powerlevel"><a href="#">' + data['powerlevel'] + '</a></li>' + 
 '<li data-role="list-divider">Motivations</li>' + 
-'<li class="motivation" id="motivation1"><a href="#">' + data['motivation1'][0] + ' ' + data['motivation1'][1] + '</a></li>' + 
-'<li class="motivation" id="motivation2"><a href="#">' + data['motivation2'][0] + ' ' + data['motivation2'][1] + '</a></li>' + 
-'<li class="motivation" id="motivation3"><a href="#">' + data['motivation3'][0] + ' ' + data['motivation3'][1] + '</a></li>' + 
+'<li class="motivation" id="motivation1"><a href="#">' + data['motivation1'] + '</a></li>' + 
+'<li class="motivation" id="motivation2"><a href="#">' + data['motivation2'] + '</a></li>' + 
+'<li class="motivation" id="motivation3"><a href="#">' + data['motivation3'] + '</a></li>' + 
 '<li data-role="list-divider">Mood</li>' +
 '<li id="mood"><a href="#">' + data['mood'] + '</a></li>' +
 '<li data-role="list-divider">Wants to discuss</li>' +
@@ -844,6 +844,11 @@ $(document).bind("pageinit",function(){
 		$(npc).appendTo('#npc').trigger('create');
 	}
 
+	$('#menu li a').on('click',function() {
+		var npc = JSON.parse(localStorage.getItem(localStorage.key($(this).parent().attr('id').substr(-1))));
+		load(npc);
+	});
+
 	$('#generate').on('click', function() {
 		$('#save').removeAttr('disabled');
 
@@ -855,7 +860,7 @@ $(document).bind("pageinit",function(){
 			while ($.inArray(curr[1], currnouns) !== -1);
 			currnouns.push(curr[1]); // so we don't duplicate
 
-			motivation[i] = curr;
+			motivation[i] = curr[0] + ' ' + curr[1];
 		}
 		var npc = {
 			'rlevel' : $("input[name='rlevel']:checked").val(),
@@ -1179,8 +1184,7 @@ $(document).bind("pageinit",function(){
 		});
 
 		$('#descriptor a').on('click',function(){
-			var descriptor = get_descriptor();
-			$(this).html(descriptor[0] + ' ' + descriptor[1]);
+			$(this).html(get_descriptor());
 			$('#save').removeAttr('disabled');
 		});
 
