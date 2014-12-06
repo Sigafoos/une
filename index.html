@@ -30,7 +30,7 @@ $(document).bind("pageinit",function(){
 			for (var i = 0; i < localStorage.length; i++) {
 				// maybe i isn't necessary? seems easier though
 				tmp = JSON.parse(localStorage.getItem(localStorage.key(i)));
-				list += '<li id="saved' + i + '"><a href="#">' + tmp['name'] + '</a></li>';
+				list += '<li id="saved' + i + '"><a href="#">' + tmp['name'] + '</a><a href="#" class="delete">delete</a></li>';
 			}
 		}
 
@@ -59,16 +59,7 @@ $(document).bind("pageinit",function(){
 	});
 
 	function new_name() {
-		name = get_name();
-
-		// have we saved this NPC before? if so, let's rename
-		var stored = localStorage.getItem($('#name a').html());
-		if (stored) {
-			localStorage.setItem(name, stored);
-			localStorage.removeItem($('#name a').html());
-		}
-	
-		$('#name a').html(name);
+		$('#name a').html(get_name());
 		$('#save').removeAttr('disabled');
 	}
 
@@ -1324,8 +1315,7 @@ $(document).bind("pageinit",function(){
 
 <div data-role="panel" id="menu" data-display="overlay" data-theme="a">
 <h2 class="ui-bar ui-bar-a">Saved NPCs</h2>
-<ul data-role="listview">
-<li>No saved</li>
+<ul data-role="listview" data-split-icon="delete">
 </ul>
 </div>
 </div>
