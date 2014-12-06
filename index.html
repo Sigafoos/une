@@ -486,21 +486,262 @@ $(document).bind("pageinit",function(){
 		return powerlevel;
 	}
 
-	$('#generate').on('click', function() {
-		if ($('#demeanor').val() == 'random') {
-			var roll = Math.floor(Math.random()*8) + 1;
-			if (roll == 1) $('#demeanor').val('scheming').change();
-			else if (roll == 2) $('#demeanor').val('insane').change();
-			else if (roll == 3) $('#demeanor').val('friendly').change();
-			else if (roll == 4) $('#demeanor').val('hostile').change();
-			else if (roll == 5) $('#demeanor').val('inquisitive').change();
-			else if (roll == 6) $('#demeanor').val('knowing').change();
-			else if (roll == 7) $('#demeanor').val('mysterious').change();
-			else $('#demeanor').val('prejudiced').change();
+	function get_mood() {
+		var roll = Math.floor(Math.random()*100) + 1;
+
+		var text;
+		switch ($('#relationship').val()) {
+			case 'loved':
+				if (roll < 2) text = 'withdrawn';
+				else if (roll < 7) text = 'guarded';
+				else if (roll < 17) text = 'cautious';
+				else if (roll < 32) text = 'neutral';
+				else if (roll < 71) text = 'sociable';
+				else if (roll < 86) text = 'helpful';
+				else text = 'forthcoming';
+				break;
+
+			case 'friendly':
+				if (roll < 3) text = 'withdrawn';
+				else if (roll < 9) text = 'guarded';
+				else if (roll < 21) text = 'cautious';
+				else if (roll < 41) text = 'neutral';
+				else if (roll < 77) text = 'sociable';
+				else if (roll < 90) text = 'helpful';
+				else text = 'forthcoming';
+				break;
+
+			case 'peaceful':
+				if (roll < 4) text = 'withdrawn';
+				else if (roll < 12) text = 'guarded';
+				else if (roll < 26) text = 'cautious';
+				else if (roll < 56) text = 'neutral';
+				else if (roll < 83) text = 'sociable';
+				else if (roll < 94) text = 'helpful';
+				else text = 'forthcoming';
+				break;
+
+			case 'neutral':
+				if (roll < 6) text = 'withdrawn';
+				else if (roll < 16) text = 'guarded';
+				else if (roll < 31) text = 'cautious';
+				else if (roll < 71) text = 'neutral';
+				else if (roll < 87) text = 'sociable';
+				else if (roll < 96) text = 'helpful';
+				else text = 'forthcoming';
+				break;
+
+			case 'distrustful':
+				if (roll < 8) text = 'withdrawn';
+				else if (roll < 19) text = 'guarded';
+				else if (roll < 47) text = 'cautious';
+				else if (roll < 77) text = 'neutral';
+				else if (roll < 91) text = 'sociable';
+				else if (roll < 98) text = 'helpful';
+				else text = 'forthcoming';
+				break;
+
+			case 'hostile':
+				if (roll < 12) text = 'withdrawn';
+				else if (roll < 25) text = 'guarded';
+				else if (roll < 62) text = 'cautious';
+				else if (roll < 82) text = 'neutral';
+				else if (roll < 94) text = 'sociable';
+				else if (roll < 99) text = 'helpful';
+				else text = 'forthcoming';
+				break;
+
+			case 'loved':
+				if (roll < 16) text = 'withdrawn';
+				else if (roll < 31) text = 'guarded';
+				else if (roll < 70) text = 'cautious';
+				else if (roll < 85) text = 'neutral';
+				else if (roll < 95) text = 'sociable';
+				else if (roll < 100) text = 'helpful';
+				else text = 'forthcoming';
+				break;
 		}
-			
+		return text;
+	}
+
+	function get_name() {
+		// this is kind of a shitty way to do it
+		// but better than not acknowleding the binary at all?
+		var gender;
+		if ($("input[name='gender']:checked").val() == 'nonbinary') {
+			if (Math.floor(Math.random()*2) == 0) gender = 'male';
+			else gender = 'female';
+		} else gender = $("input[name='gender']:checked").val();
+		return generate_name($('#source').val() + '-' + gender);
+	}
+
+	function get_discussion() {
+		var roll;
+
+		var bearing;
+		roll = Math.floor(Math.random()*10) + 1;
+		if ($('#demeanor').val() == 'random') get_demeanor();
+
+		switch ($('#demeanor').val()) {
+			case 'scheming':
+				if (roll == 1) bearing = 'intent';
+				else if (roll == 2) bearing = 'bargain';
+				else if (roll == 3) bearing = 'means';
+				else if (roll == 4) bearing = 'proposition';
+				else if (roll == 5) bearing = 'plan';
+				else if (roll == 6) bearing = 'compromise';
+				else if (roll == 7) bearing = 'agenda';
+				else if (roll == 8) bearing = 'arrangement';
+				else if (roll == 9) bearing = 'negotiation';
+				else bearing = 'plot';
+				break;
+
+			case 'insane':
+				if (roll == 1) bearing = 'madness';
+				else if (roll == 2) bearing = 'fear';
+				else if (roll == 3) bearing = 'accident';
+				else if (roll == 4) bearing = 'chaos';
+				else if (roll == 5) bearing = 'idiocy';
+				else if (roll == 6) bearing = 'illusion';
+				else if (roll == 7) bearing = 'turmoil';
+				else if (roll == 8) bearing = 'confusion';
+				else if (roll == 9) bearing = 'facade';
+				else bearing = 'bewilderment';
+				break;
+
+			case 'friendly':
+				if (roll == 1) bearing = 'alliance';
+				else if (roll == 2) bearing = 'comfort';
+				else if (roll == 3) bearing = 'gratitude';
+				else if (roll == 4) bearing = 'shelter';
+				else if (roll == 5) bearing = 'happiness';
+				else if (roll == 6) bearing = 'support';
+				else if (roll == 7) bearing = 'promise';
+				else if (roll == 8) bearing = 'delight';
+				else if (roll == 9) bearing = 'aid';
+				else bearing = 'celebration';
+				break;
+
+			case 'hostile':
+				if (roll == 1) bearing = 'death';
+				else if (roll == 2) bearing = 'capture';
+				else if (roll == 3) bearing = 'judgment';
+				else if (roll == 4) bearing = 'combat';
+				else if (roll == 5) bearing = 'surrender';
+				else if (roll == 6) bearing = 'rage';
+				else if (roll == 7) bearing = 'resentment';
+				else if (roll == 8) bearing = 'submission';
+				else if (roll == 9) bearing = 'injury';
+				else bearing = 'destruction';
+				break;
+
+			case 'inquisitive':
+				if (roll == 1) bearing = 'questions';
+				else if (roll == 2) bearing = 'investigation';
+				else if (roll == 3) bearing = 'interest';
+				else if (roll == 4) bearing = 'demand';
+				else if (roll == 5) bearing = 'suspicion';
+				else if (roll == 6) bearing = 'request';
+				else if (roll == 7) bearing = 'curiosity';
+				else if (roll == 8) bearing = 'skepticism';
+				else if (roll == 9) bearing = 'command';
+				else bearing = 'petition';
+				break;
+
+			case 'knowing':
+				if (roll == 1) bearing = 'report';
+				else if (roll == 2) bearing = 'effects';
+				else if (roll == 3) bearing = 'examination';
+				else if (roll == 4) bearing = 'records';
+				else if (roll == 5) bearing = 'account';
+				else if (roll == 6) bearing = 'news';
+				else if (roll == 7) bearing = 'history';
+				else if (roll == 8) bearing = 'telling';
+				else if (roll == 9) bearing = 'discourse';
+				else bearing = 'speech';
+				break;
+
+			case 'mysterious':
+				if (roll == 1) bearing = 'rumor';
+				else if (roll == 2) bearing = 'uncertainty';
+				else if (roll == 3) bearing = 'secrets';
+				else if (roll == 4) bearing = 'misdirection';
+				else if (roll == 5) bearing = 'whispers';
+				else if (roll == 6) bearing = 'lies';
+				else if (roll == 7) bearing = 'shadows';
+				else if (roll == 8) bearing = 'enigma';
+				else if (roll == 9) bearing = 'obscurity';
+				else bearing = 'conundrum';
+				break;
+
+			case 'prejudiced':
+				if (roll == 1) bearing = 'reputation';
+				else if (roll == 2) bearing = 'doubt';
+				else if (roll == 3) bearing = 'bias';
+				else if (roll == 4) bearing = 'dislike';
+				else if (roll == 5) bearing = 'partiality';
+				else if (roll == 6) bearing = 'belief';
+				else if (roll == 7) bearing = 'view';
+				else if (roll == 8) bearing = 'discrimination';
+				else if (roll == 9) bearing = 'assessment';
+				else bearing = 'difference';
+				break;
+
+		}
+
+		var focus;
+		roll = Math.floor(Math.random()*100) + 1;
+		if (roll < 4) focus = 'current scene';
+		else if (roll < 7) focus = 'last story';
+		else if (roll < 10) focus = 'equipment';
+		else if (roll < 13) focus = 'parents';
+		else if (roll < 16) focus = 'history';
+		else if (roll < 19) focus = 'retainers';
+		else if (roll < 22) focus = 'wealth';
+		else if (roll < 25) focus = 'relics';
+		else if (roll < 28) focus = 'last action';
+		else if (roll < 31) focus = 'skills';
+		else if (roll < 34) focus = 'superiors';
+		else if (roll < 37) focus = 'fame';
+		else if (roll < 40) focus = 'campaign';
+		else if (roll < 43) focus = 'future action';
+		else if (roll < 46) focus = 'friends';
+		else if (roll < 49) focus = 'allies';
+		else if (roll < 52) focus = 'last scene';
+		else if (roll < 55) focus = 'contacts';
+		else if (roll < 58) focus = 'flaws';
+		else if (roll < 61) focus = 'antagonist';
+		else if (roll < 64) focus = 'rewards';
+		else if (roll < 67) focus = 'experience';
+		else if (roll < 70) focus = 'knowledge';
+		else if (roll < 73) focus = 'recent scene';
+		else if (roll < 76) focus = 'community';
+		else if (roll < 79) focus = 'treasure';
+		else if (roll < 82) focus = 'the character';
+		else if (roll < 85) focus = 'current story';
+		else if (roll < 88) focus = 'family';
+		else if (roll < 91) focus = 'power';
+		else if (roll < 94) focus = 'weapons';
+		else if (roll < 97) focus = 'previous scene';
+		else focus = 'enemy';
+
+		return 'the ' + $('#demeanor').val() + ' NPC speaks of ' + bearing + ' regarding ' + focus;
+	}
+
+	function get_demeanor() {
+		var roll = Math.floor(Math.random()*8) + 1;
+		if (roll == 1) $('#demeanor').val('scheming').change();
+		else if (roll == 2) $('#demeanor').val('insane').change();
+		else if (roll == 3) $('#demeanor').val('friendly').change();
+		else if (roll == 4) $('#demeanor').val('hostile').change();
+		else if (roll == 5) $('#demeanor').val('inquisitive').change();
+		else if (roll == 6) $('#demeanor').val('knowing').change();
+		else if (roll == 7) $('#demeanor').val('mysterious').change();
+		else $('#demeanor').val('prejudiced').change();
+	}
+
+	$('#generate').on('click', function() {
 		var descriptor = get_descriptor();
-		var powerlevel = get_powerlevel();
 
 		var motivation = new Array();
 		var curr;
@@ -513,40 +754,28 @@ $(document).bind("pageinit",function(){
 			motivation[i] = curr;
 		}
 
-
-		// this is kind of a shitty way to do it
-		// but better than not acknowleding the binary at all?
-		var gender;
-		if ($("input[name='gender']:checked").val() == 'nonbinary') {
-			if (Math.floor(Math.random()*2) == 0) gender = 'male';
-			else gender = 'female';
-		} else gender = $("input[name='gender']:checked").val();
-		var name = generate_name($('#source').val() + '-' + gender);
-
 		$('.npc').remove(); // so you can refresh
 		$('.response').remove();
 		$('.discussion').remove();
 
 		var npc = document.createElement('div');
 		$(npc).addClass('npc');
-		var html = '<div class="ui-corner-all">' +
-'<div class="ui-bar ui-bar-a">' +
-'<h2 id="name">' + name + '</h2>' +
-'</div>' +
-'<div class="ui-body ui-body-a">' +
-'<ul data-role="listview" data-inset="true">' + 
-'<li id="descriptor">' + descriptor[0] + ' ' + descriptor[1] + '</li>' + 
-'<li id="powerlevel">' + powerlevel + '</li>' + 
-'</ul>' +
-'<h3>Motivations</h3>' +
-'<ul data-role="listview" data-inset="true" id="motivations">' + 
-'<li class="motivation" id="motivation1" data-icon="refresh"><a href="#">' + motivation[0][0] + ' ' + motivation[0][1] + '</a></li>' + 
-'<li class="motivation" id="motivation2" data-icon="refresh"><a href="#">' + motivation[1][0] + ' ' + motivation[1][1] + '</a></li>' + 
-'<li class="motivation" id="motivation3" data-icon="refresh"><a href="#">' + motivation[2][0] + ' ' + motivation[2][1] + '</a></li>' + 
-'</ul>' + 
-'<button data-inline="true" id="moodmodule">determine mood</button>' + 
-'<button data-inline="true" id="importancemodule">generate discussion topic</button>' + 
-'<div id="mood"></div>' +
+		var html = '<ul data-role="listview" data-icon="refresh" data-inset="true">' + 
+'<li data-role="list-divider">Name</li>' +
+'<li id="name"><a href="#">' + get_name() + '</a></li>' +
+'<li data-role="list-divider">Descriptor</li>' +
+'<li id="descriptor"><a href="#">' + descriptor[0] + ' ' + descriptor[1] + '</a></li>' + 
+'<li data-role="list-divider">Power level</li>' + 
+'<li id="powerlevel"><a href="#">' + get_powerlevel() + '</a></li>' + 
+'<li data-role="list-divider">Motivations</li>' + 
+'<li class="motivation" id="motivation1"><a href="#">' + motivation[0][0] + ' ' + motivation[0][1] + '</a></li>' + 
+'<li class="motivation" id="motivation2"><a href="#">' + motivation[1][0] + ' ' + motivation[1][1] + '</a></li>' + 
+'<li class="motivation" id="motivation3"><a href="#">' + motivation[2][0] + ' ' + motivation[2][1] + '</a></li>' + 
+'<li data-role="list-divider">Mood</li>' +
+'<li id="mood"><a href="#">' + get_mood() + '</a></li>' +
+'<li data-role="list-divider">Wants to discuss</li>' +
+'<li id="discussion"><a href="#">' + get_discussion() + '</a></li>' +
+'</ul>';
 /*
 '<h2>Ask yes/no question</h2>' + 
 '<form>' + 
@@ -576,97 +805,9 @@ $(document).bind("pageinit",function(){
 '<input type="button" data-inline="true" id="responsemodule" value="ask">' + 
 '</form>' + 
 */
-'<div id="response"></div>' + 
-'<div id="importance"></div>' +
-'</div>' +
-'</div>';
 
 		$(npc).html(html);
 		$(npc).appendTo('#npc').trigger('create');
-
-
-		$('#moodmodule').on('click',function(){
-			var roll = Math.floor(Math.random()*100) + 1;
-
-			var text;
-			switch ($('#relationship').val()) {
-				case 'loved':
-					if (roll < 2) text = 'withdrawn';
-					else if (roll < 7) text = 'guarded';
-					else if (roll < 17) text = 'cautious';
-					else if (roll < 32) text = 'neutral';
-					else if (roll < 71) text = 'sociable';
-					else if (roll < 86) text = 'helpful';
-					else text = 'forthcoming';
-					break;
-
-				case 'friendly':
-					if (roll < 3) text = 'withdrawn';
-					else if (roll < 9) text = 'guarded';
-					else if (roll < 21) text = 'cautious';
-					else if (roll < 41) text = 'neutral';
-					else if (roll < 77) text = 'sociable';
-					else if (roll < 90) text = 'helpful';
-					else text = 'forthcoming';
-					break;
-
-				case 'peaceful':
-					if (roll < 4) text = 'withdrawn';
-					else if (roll < 12) text = 'guarded';
-					else if (roll < 26) text = 'cautious';
-					else if (roll < 56) text = 'neutral';
-					else if (roll < 83) text = 'sociable';
-					else if (roll < 94) text = 'helpful';
-					else text = 'forthcoming';
-					break;
-
-				case 'neutral':
-					if (roll < 6) text = 'withdrawn';
-					else if (roll < 16) text = 'guarded';
-					else if (roll < 31) text = 'cautious';
-					else if (roll < 71) text = 'neutral';
-					else if (roll < 87) text = 'sociable';
-					else if (roll < 96) text = 'helpful';
-					else text = 'forthcoming';
-					break;
-
-				case 'distrustful':
-					if (roll < 8) text = 'withdrawn';
-					else if (roll < 19) text = 'guarded';
-					else if (roll < 47) text = 'cautious';
-					else if (roll < 77) text = 'neutral';
-					else if (roll < 91) text = 'sociable';
-					else if (roll < 98) text = 'helpful';
-					else text = 'forthcoming';
-					break;
-
-				case 'hostile':
-					if (roll < 12) text = 'withdrawn';
-					else if (roll < 25) text = 'guarded';
-					else if (roll < 62) text = 'cautious';
-					else if (roll < 82) text = 'neutral';
-					else if (roll < 94) text = 'sociable';
-					else if (roll < 99) text = 'helpful';
-					else text = 'forthcoming';
-					break;
-
-				case 'loved':
-					if (roll < 16) text = 'withdrawn';
-					else if (roll < 31) text = 'guarded';
-					else if (roll < 70) text = 'cautious';
-					else if (roll < 85) text = 'neutral';
-					else if (roll < 95) text = 'sociable';
-					else if (roll < 100) text = 'helpful';
-					else text = 'forthcoming';
-					break;
-
-			}
-			$('.mood').remove();
-			var response = document.createElement('div');
-			$(response).addClass('mood');
-			$(response).html('<p>feeling ' + text + '</p>');
-			$(response).appendTo('#mood').trigger('create');
-		});
 
 		// currently not functional or able to be called
 		$('#responsemodule').on('click',function(){
@@ -956,161 +1097,6 @@ $(document).bind("pageinit",function(){
 			$(response).appendTo('#response').trigger('create');
 		});
 
-		$('#importancemodule').on('click',function(){
-			var roll;
-
-			var bearing;
-			roll = Math.floor(Math.random()*10) + 1;
-			switch ($('#demeanor').val()) {
-				case 'scheming':
-					if (roll == 1) bearing = 'intent';
-					else if (roll == 2) bearing = 'bargain';
-					else if (roll == 3) bearing = 'means';
-					else if (roll == 4) bearing = 'proposition';
-					else if (roll == 5) bearing = 'plan';
-					else if (roll == 6) bearing = 'compromise';
-					else if (roll == 7) bearing = 'agenda';
-					else if (roll == 8) bearing = 'arrangement';
-					else if (roll == 9) bearing = 'negotiation';
-					else bearing = 'plot';
-					break;
-
-				case 'insane':
-					if (roll == 1) bearing = 'madness';
-					else if (roll == 2) bearing = 'fear';
-					else if (roll == 3) bearing = 'accident';
-					else if (roll == 4) bearing = 'chaos';
-					else if (roll == 5) bearing = 'idiocy';
-					else if (roll == 6) bearing = 'illusion';
-					else if (roll == 7) bearing = 'turmoil';
-					else if (roll == 8) bearing = 'confusion';
-					else if (roll == 9) bearing = 'facade';
-					else bearing = 'bewilderment';
-					break;
-
-				case 'friendly':
-					if (roll == 1) bearing = 'alliance';
-					else if (roll == 2) bearing = 'comfort';
-					else if (roll == 3) bearing = 'gratitude';
-					else if (roll == 4) bearing = 'shelter';
-					else if (roll == 5) bearing = 'happiness';
-					else if (roll == 6) bearing = 'support';
-					else if (roll == 7) bearing = 'promise';
-					else if (roll == 8) bearing = 'delight';
-					else if (roll == 9) bearing = 'aid';
-					else bearing = 'celebration';
-					break;
-
-				case 'hostile':
-					if (roll == 1) bearing = 'death';
-					else if (roll == 2) bearing = 'capture';
-					else if (roll == 3) bearing = 'judgment';
-					else if (roll == 4) bearing = 'combat';
-					else if (roll == 5) bearing = 'surrender';
-					else if (roll == 6) bearing = 'rage';
-					else if (roll == 7) bearing = 'resentment';
-					else if (roll == 8) bearing = 'submission';
-					else if (roll == 9) bearing = 'injury';
-					else bearing = 'destruction';
-					break;
-
-				case 'inquisitive':
-					if (roll == 1) bearing = 'questions';
-					else if (roll == 2) bearing = 'investigation';
-					else if (roll == 3) bearing = 'interest';
-					else if (roll == 4) bearing = 'demand';
-					else if (roll == 5) bearing = 'suspicion';
-					else if (roll == 6) bearing = 'request';
-					else if (roll == 7) bearing = 'curiosity';
-					else if (roll == 8) bearing = 'skepticism';
-					else if (roll == 9) bearing = 'command';
-					else bearing = 'petition';
-					break;
-
-				case 'knowing':
-					if (roll == 1) bearing = 'report';
-					else if (roll == 2) bearing = 'effects';
-					else if (roll == 3) bearing = 'examination';
-					else if (roll == 4) bearing = 'records';
-					else if (roll == 5) bearing = 'account';
-					else if (roll == 6) bearing = 'news';
-					else if (roll == 7) bearing = 'history';
-					else if (roll == 8) bearing = 'telling';
-					else if (roll == 9) bearing = 'discourse';
-					else bearing = 'speech';
-					break;
-
-				case 'mysterious':
-					if (roll == 1) bearing = 'rumor';
-					else if (roll == 2) bearing = 'uncertainty';
-					else if (roll == 3) bearing = 'secrets';
-					else if (roll == 4) bearing = 'misdirection';
-					else if (roll == 5) bearing = 'whispers';
-					else if (roll == 6) bearing = 'lies';
-					else if (roll == 7) bearing = 'shadows';
-					else if (roll == 8) bearing = 'enigma';
-					else if (roll == 9) bearing = 'obscurity';
-					else bearing = 'conundrum';
-					break;
-
-				case 'prejudiced':
-					if (roll == 1) bearing = 'reputation';
-					else if (roll == 2) bearing = 'doubt';
-					else if (roll == 3) bearing = 'bias';
-					else if (roll == 4) bearing = 'dislike';
-					else if (roll == 5) bearing = 'partiality';
-					else if (roll == 6) bearing = 'belief';
-					else if (roll == 7) bearing = 'view';
-					else if (roll == 8) bearing = 'discrimination';
-					else if (roll == 9) bearing = 'assessment';
-					else bearing = 'difference';
-					break;
-
-			}
-
-			var focus;
-			roll = Math.floor(Math.random()*100) + 1;
-			if (roll < 4) focus = 'current scene';
-			else if (roll < 7) focus = 'last story';
-			else if (roll < 10) focus = 'equipment';
-			else if (roll < 13) focus = 'parents';
-			else if (roll < 16) focus = 'history';
-			else if (roll < 19) focus = 'retainers';
-			else if (roll < 22) focus = 'wealth';
-			else if (roll < 25) focus = 'relics';
-			else if (roll < 28) focus = 'last action';
-			else if (roll < 31) focus = 'skills';
-			else if (roll < 34) focus = 'superiors';
-			else if (roll < 37) focus = 'fame';
-			else if (roll < 40) focus = 'campaign';
-			else if (roll < 43) focus = 'future action';
-			else if (roll < 46) focus = 'friends';
-			else if (roll < 49) focus = 'allies';
-			else if (roll < 52) focus = 'last scene';
-			else if (roll < 55) focus = 'contacts';
-			else if (roll < 58) focus = 'flaws';
-			else if (roll < 61) focus = 'antagonist';
-			else if (roll < 64) focus = 'rewards';
-			else if (roll < 67) focus = 'experience';
-			else if (roll < 70) focus = 'knowledge';
-			else if (roll < 73) focus = 'recent scene';
-			else if (roll < 76) focus = 'community';
-			else if (roll < 79) focus = 'treasure';
-			else if (roll < 82) focus = 'the character';
-			else if (roll < 85) focus = 'current story';
-			else if (roll < 88) focus = 'family';
-			else if (roll < 91) focus = 'power';
-			else if (roll < 94) focus = 'weapons';
-			else if (roll < 97) focus = 'previous scene';
-			else focus = 'enemy';
-
-			$('.importance').remove();
-			var importance = document.createElement('div');
-			$(importance).addClass('importance');
-			$(importance).html('<p>the ' + $('#demeanor').val() + ' NPC speaks of ' + bearing + ' regarding ' + focus + '</p>');
-			$(importance).appendTo('#importance').trigger('create');
-		});
-
 		$('.motivation a').on('click',function(){
 			var newmotivation;
 			do newmotivation = get_motivation();
@@ -1118,6 +1104,27 @@ $(document).bind("pageinit",function(){
 			var i = $(this).parent().attr('id').substr(-1) - 1;
 			currnouns[i] = newmotivation;
 			$(this).html(newmotivation[0] + ' ' + newmotivation[1]);
+		});
+
+		$('#name a').on('click',function(){
+			$(this).html(get_name());
+		});
+
+		$('#descriptor a').on('click',function(){
+			var descriptor = get_descriptor();
+			$(this).html(descriptor[0] + ' ' + descriptor[1]);
+		});
+
+		$('#powerlevel a').on('click',function(){
+			$(this).html(get_powerlevel());
+		});
+
+		$('#mood a').on('click',function(){
+			$(this).html(get_mood());
+		});
+
+		$('#discussion a').on('click',function(){
+			$(this).html(get_discussion());
 		});
 
 	});
