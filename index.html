@@ -17,6 +17,11 @@
 <script type="text/javascript">
 <!--
 $(document).bind("pageinit",function(){
+	// re-enable form saves if it's been generated
+	$('form').on('change',function(){
+		if ($('#name a').html()) $('#save').removeAttr('disabled');
+	});
+
 	function get_descriptor() {
 		var modifiers = new Array(
 			'superfluous',
@@ -741,6 +746,8 @@ $(document).bind("pageinit",function(){
 	}
 
 	$('#generate').on('click', function() {
+		$('#save').removeAttr('disabled');
+
 		var descriptor = get_descriptor();
 
 		var motivation = new Array();
@@ -1104,28 +1111,69 @@ $(document).bind("pageinit",function(){
 			var i = $(this).parent().attr('id').substr(-1) - 1;
 			currnouns[i] = newmotivation;
 			$(this).html(newmotivation[0] + ' ' + newmotivation[1]);
+			$('#save').removeAttr('disabled');
 		});
 
 		$('#name a').on('click',function(){
-			$(this).html(get_name());
+			name = get_name();
+
+			// have we saved this NPC before? if so, let's rename
+			var stored = localStorage.getItem($('#name a').html());
+			if (stored) {
+				localStorage.setItem(name, stored);
+				localStorage.removeItem($('#name a').html());
+			}
+
+			$(this).html(name);
+			$('#save').removeAttr('disabled');
 		});
 
 		$('#descriptor a').on('click',function(){
 			var descriptor = get_descriptor();
 			$(this).html(descriptor[0] + ' ' + descriptor[1]);
+			$('#save').removeAttr('disabled');
 		});
 
 		$('#powerlevel a').on('click',function(){
 			$(this).html(get_powerlevel());
+			$('#save').removeAttr('disabled');
 		});
 
 		$('#mood a').on('click',function(){
 			$(this).html(get_mood());
+			$('#save').removeAttr('disabled');
 		});
 
 		$('#discussion a').on('click',function(){
 			$(this).html(get_discussion());
+			$('#save').removeAttr('disabled');
 		});
+
+		$('#save').on('click',function(event){
+			event.preventDefault();
+
+			var npc = {
+			'rlevel' : $("input[name='rlevel']:checked").val(),
+			'relationship' : $('#relationship').val(),
+			'demeanor' : $('#demeanor').val(),
+			'gender' : $("input[name='gender']:checked").val(),
+			'source' : $('#source').val(),
+			'name' : $('#name a').html(),
+			'descriptor' : $('#descriptor a').html(),
+			'powerlevel' : $('#powerlevel a').html(),
+			'motivation1' : $('#motivation1 a').html(),
+			'motivation2' : $('#motivation2 a').html(),
+			'motivation3' : $('#motivation3 a').html(),
+			'mood' : $('#mood a').html(),
+			'discussion' : $('#discussion a').html(),
+			'currnouns' : currnouns
+			};
+
+			// yes, if you change the name it will be duplicated. I'll fix that eventually.
+			localStorage.setItem(npc['name'],JSON.stringify(npc));
+			$('#save').attr('disabled','');
+		});
+
 
 	});
 
@@ -1203,7 +1251,8 @@ $(document).bind("pageinit",function(){
 </select>
 </div>
 
-<input type="button" value="Generate" id="generate">
+<input type="button" value="generate" id="generate" data-inline="true">
+<button disabled="" id="save" data-inline="true">save</button>
 </form>
 
 <div id="npc"></div>
