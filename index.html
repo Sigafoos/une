@@ -38,9 +38,16 @@ $(document).bind("pageinit",function(){
 		$('#menu ul').listview('refresh');
 		$('#menu').trigger('updatelayout');
 
-		$('#menu li a').on('click',function() {
+		$('#menu li a').not('.delete').on('click',function() {
 			npc = JSON.parse(localStorage.getItem(localStorage.key($(this).parent().attr('id').substr(-1))));
 			load(npc);
+		});
+
+		$('#menu .delete').on('click',function(){
+			var id = $(this).parent().attr('id').substr(-1);
+			localStorage.removeItem(localStorage.key(id));
+			$(this).parent().fadeOut(400);
+			setTimeout(update_sidebar,400);
 		});
 	
 	}
@@ -1314,7 +1321,7 @@ $(document).bind("pageinit",function(){
 <div data-role="footer" data-position="fixed"><h2>All content &copy; <a href="http://conjecturegames.com/une/">Conjecture Games</a></h2></div>
 
 <div data-role="panel" id="menu" data-display="overlay" data-theme="a">
-<h2 class="ui-bar ui-bar-a">Saved NPCs</h2>
+<h2 class="ui-bar ui-bar-a">Load NPC</h2>
 <ul data-role="listview" data-split-icon="delete">
 </ul>
 </div>
