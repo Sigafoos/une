@@ -22,6 +22,25 @@ $(document).bind("pageinit",function(){
 		if ($('#name a').html()) $('#save').removeAttr('disabled');
 	});
 
+	// change the name source after generating a name? generate a new name
+	$('#source').on('change',function(){
+		if ($('#name a').html()) new_name();
+	});
+
+	function new_name() {
+		name = get_name();
+
+		// have we saved this NPC before? if so, let's rename
+		var stored = localStorage.getItem($('#name a').html());
+		if (stored) {
+			localStorage.setItem(name, stored);
+			localStorage.removeItem($('#name a').html());
+		}
+	
+		$('#name a').html(name);
+		$('#save').removeAttr('disabled');
+	}
+
 	function get_descriptor() {
 		var modifiers = new Array(
 			'superfluous',
@@ -1115,17 +1134,7 @@ $(document).bind("pageinit",function(){
 		});
 
 		$('#name a').on('click',function(){
-			name = get_name();
-
-			// have we saved this NPC before? if so, let's rename
-			var stored = localStorage.getItem($('#name a').html());
-			if (stored) {
-				localStorage.setItem(name, stored);
-				localStorage.removeItem($('#name a').html());
-			}
-
-			$(this).html(name);
-			$('#save').removeAttr('disabled');
+			new_name();
 		});
 
 		$('#descriptor a').on('click',function(){
