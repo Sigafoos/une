@@ -17,6 +17,8 @@
 <script type="text/javascript">
 <!--
 $(document).bind("pageinit",function(){
+	var currnouns = new Array();
+
 	function update_sidebar() {	
 		var list = '';
 
@@ -842,332 +844,8 @@ $(document).bind("pageinit",function(){
 
 		$(npc).html(html);
 		$(npc).appendTo('#npc').trigger('create');
-	}
-
-	$('#menu li a').on('click',function() {
-		var npc = JSON.parse(localStorage.getItem(localStorage.key($(this).parent().attr('id').substr(-1))));
-		load(npc);
-	});
-
-	$('#generate').on('click', function() {
-		$('#save').removeAttr('disabled');
-
-		var motivation = new Array();
-		var curr;
-		var currnouns = new Array();
-		for (var i = 0; i < 3; i++) {
-			do curr = get_motivation();
-			while ($.inArray(curr[1], currnouns) !== -1);
-			currnouns.push(curr[1]); // so we don't duplicate
-
-			motivation[i] = curr[0] + ' ' + curr[1];
-		}
-		var npc = {
-			'rlevel' : $("input[name='rlevel']:checked").val(),
-			'relationship' : $('#relationship').val(),
-			'discussion' : get_discussion(),
-			'demeanor' : $('#demeanor').val(),
-			'gender' : $("input[name='gender']:checked").val(),
-			'source' : $('#source').val(),
-			'name' : get_name(),
-			'descriptor' : get_descriptor(),
-			'powerlevel' : get_powerlevel(),
-			'motivation1' : motivation[0],
-			'motivation2' : motivation[1],
-			'motivation3' : motivation[2],
-			'mood' : get_mood(),
-			'currnouns' : currnouns
-			};
-
-		load(npc);
-
-		// currently not functional or able to be called
-		$('#responsemodule').on('click',function(){
-			var roll = Math.floor(Math.random()*100) + 1;
-
-			var text;
-			switch ($('#relationship').val()) {
-				case 'loved':
-					switch ($('#mood').val()) {
-						case 'withdrawn':
-							if (roll < 6) text = 'strong yes';
-							else if (roll < 31) text = 'yes';
-							else if (roll < 88) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'guarded':
-							if (roll < 10) text = 'strong yes';
-							else if (roll < 46) text = 'yes';
-							else if (roll < 91) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'cautious':
-							if (roll < 13) text = 'strong yes';
-							else if (roll < 61) text = 'yes';
-							else if (roll < 94) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'neutral':
-							if (roll < 16) text = 'strong yes';
-							else if (roll < 76) text = 'yes';
-							else if (roll < 96) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'sociable':
-							if (roll < 19) text = 'strong yes';
-							else if (roll < 82) text = 'yes';
-							else if (roll < 97) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'helpful':
-							if (roll < 22) text = 'strong yes';
-							else if (roll < 89) text = 'yes';
-							else if (roll < 98) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'forthcoming':
-							if (roll < 26) text = 'strong yes';
-							else if (roll < 96) text = 'yes';
-							else if (roll < 100) text = 'no';
-							else text = 'strong no';
-							break;
-
-					}
-					break;
-
-				case 'friendly':
-					switch ($('#mood').val()) {
-						case 'withdrawn':
-							if (roll < 5) text = 'strong yes';
-							else if (roll < 26) text = 'yes';
-							else if (roll < 86) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'guarded':
-							if (roll < 9) text = 'strong yes';
-							else if (roll < 39) text = 'yes';
-							else if (roll < 89) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'cautious':
-							if (roll < 11) text = 'strong yes';
-							else if (roll < 52) text = 'yes';
-							else if (roll < 92) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'neutral':
-							if (roll < 14) text = 'strong yes';
-							else if (roll < 65) text = 'yes';
-							else if (roll < 94) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'sociable':
-							if (roll < 17) text = 'strong yes';
-							else if (roll < 74) text = 'yes';
-							else if (roll < 95) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'helpful':
-							if (roll < 20) text = 'strong yes';
-							else if (roll < 83) text = 'yes';
-							else if (roll < 97) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'forthcoming':
-							if (roll < 24) text = 'strong yes';
-							else if (roll < 92) text = 'yes';
-							else if (roll < 99) text = 'no';
-							else text = 'strong no';
-							break;
-
-					}
-					break;
-
-				case 'peaceful':
-					switch ($('#mood').val()) {
-						case 'withdrawn':
-							if (roll < 5) text = 'strong yes';
-							else if (roll < 22) text = 'yes';
-							else if (roll < 84) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'guarded':
-							if (roll < 8) text = 'strong yes';
-							else if (roll < 34) text = 'yes';
-							else if (roll < 87) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'cautious':
-							if (roll < 10) text = 'strong yes';
-							else if (roll < 46) text = 'yes';
-							else if (roll < 90) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'neutral':
-							if (roll < 12) text = 'strong yes';
-							else if (roll < 57) text = 'yes';
-							else if (roll < 92) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'sociable':
-							if (roll < 15) text = 'strong yes';
-							else if (roll < 66) text = 'yes';
-							else if (roll < 94) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'helpful':
-							if (roll < 18) text = 'strong yes';
-							else if (roll < 77) text = 'yes';
-							else if (roll < 96) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'forthcoming':
-							if (roll < 22) text = 'strong yes';
-							else if (roll < 88) text = 'yes';
-							else if (roll < 99) text = 'no';
-							else text = 'strong no';
-							break;
-					}
-					break;
-
-				case 'neutral':
-					switch ($('#mood').val()) {
-						case 'withdrawn':
-							if (roll < 4) text = 'strong yes';
-							else if (roll < 18) text = 'yes';
-							else if (roll < 82) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'guarded':
-							if (roll < 7) text = 'strong yes';
-							else if (roll < 29) text = 'yes';
-							else if (roll < 85) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'cautious':
-							if (roll < 9) text = 'strong yes';
-							else if (roll < 40) text = 'yes';
-							else if (roll < 88) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'neutral':
-							if (roll < 11) text = 'strong yes';
-							else if (roll < 51) text = 'yes';
-							else if (roll < 91) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'sociable':
-							if (roll < 14) text = 'strong yes';
-							else if (roll < 62) text = 'yes';
-							else if (roll < 93) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'helpful':
-							if (roll < 17) text = 'strong yes';
-							else if (roll < 73) text = 'yes';
-							else if (roll < 95) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'forthcoming':
-							if (roll < 20) text = 'strong yes';
-							else if (roll < 84) text = 'yes';
-							else if (roll < 98) text = 'no';
-							else text = 'strong no';
-							break;
-					}
-					break;
-
-				case 'distrustful':
-					switch ($('#mood').val()) {
-						case 'withdrawn':
-							if (roll < 3) text = 'strong yes';
-							else if (roll < 14) text = 'yes';
-							else if (roll < 80) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'guarded':
-							if (roll < 10) text = 'strong yes';
-							else if (roll < 46) text = 'yes';
-							else if (roll < 91) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'cautious':
-							if (roll < 13) text = 'strong yes';
-							else if (roll < 61) text = 'yes';
-							else if (roll < 94) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'neutral':
-							if (roll < 16) text = 'strong yes';
-							else if (roll < 76) text = 'yes';
-							else if (roll < 96) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'sociable':
-							if (roll < 19) text = 'strong yes';
-							else if (roll < 82) text = 'yes';
-							else if (roll < 97) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'helpful':
-							if (roll < 22) text = 'strong yes';
-							else if (roll < 89) text = 'yes';
-							else if (roll < 98) text = 'no';
-							else text = 'strong no';
-							break;
-
-						case 'forthcoming':
-							if (roll < 26) text = 'strong yes';
-							else if (roll < 96) text = 'yes';
-							else if (roll < 100) text = 'no';
-							else text = 'strong no';
-							break;
-					}
-					break;
-
-/*
-				case 'hostile':
-
-				case 'hated':
-*/
-			}
-
-			$('.response').remove();
-			var response = document.createElement('div');
-			$(response).addClass('response');
-//$(response).html('<p>relationship: ' + $('#relationship').val() + ' / mood: ' + $('#mood').val() + '</p>');
-			$(response).html('<p>' + text + '</p>');
-			$(response).appendTo('#response').trigger('create');
-		});
+		$('#save').attr('disabled','');
+		
 
 		$('.motivation a').on('click',function(){
 			var newmotivation;
@@ -1231,8 +909,329 @@ $(document).bind("pageinit",function(){
 		});
 
 
+	}
+
+	$('#menu li a').on('click',function() {
+		var npc = JSON.parse(localStorage.getItem(localStorage.key($(this).parent().attr('id').substr(-1))));
+		load(npc);
 	});
 
+	$('#generate').on('click', function() {
+		$('#save').removeAttr('disabled');
+
+		var motivation = new Array();
+		var curr;
+		for (var i = 0; i < 3; i++) {
+			do curr = get_motivation();
+			while ($.inArray(curr[1], currnouns) !== -1);
+			currnouns.push(curr[1]); // so we don't duplicate
+
+			motivation[i] = curr[0] + ' ' + curr[1];
+		}
+		var npc = {
+			'rlevel' : $("input[name='rlevel']:checked").val(),
+			'relationship' : $('#relationship').val(),
+			'discussion' : get_discussion(),
+			'demeanor' : $('#demeanor').val(),
+			'gender' : $("input[name='gender']:checked").val(),
+			'source' : $('#source').val(),
+			'name' : get_name(),
+			'descriptor' : get_descriptor(),
+			'powerlevel' : get_powerlevel(),
+			'motivation1' : motivation[0],
+			'motivation2' : motivation[1],
+			'motivation3' : motivation[2],
+			'mood' : get_mood(),
+			'currnouns' : currnouns
+			};
+
+		load(npc);
+		$('#save').removeAttr('disabled');
+
+	});
+
+	// currently not functional or able to be called
+	function get_response() {
+	var roll = Math.floor(Math.random()*100) + 1;
+
+	var text;
+	switch ($('#relationship').val()) {
+		case 'loved':
+			switch ($('#mood').val()) {
+				case 'withdrawn':
+					if (roll < 6) text = 'strong yes';
+					else if (roll < 31) text = 'yes';
+					else if (roll < 88) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'guarded':
+					if (roll < 10) text = 'strong yes';
+					else if (roll < 46) text = 'yes';
+					else if (roll < 91) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'cautious':
+					if (roll < 13) text = 'strong yes';
+					else if (roll < 61) text = 'yes';
+					else if (roll < 94) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'neutral':
+					if (roll < 16) text = 'strong yes';
+					else if (roll < 76) text = 'yes';
+					else if (roll < 96) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'sociable':
+					if (roll < 19) text = 'strong yes';
+					else if (roll < 82) text = 'yes';
+					else if (roll < 97) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'helpful':
+					if (roll < 22) text = 'strong yes';
+					else if (roll < 89) text = 'yes';
+					else if (roll < 98) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'forthcoming':
+					if (roll < 26) text = 'strong yes';
+					else if (roll < 96) text = 'yes';
+					else if (roll < 100) text = 'no';
+					else text = 'strong no';
+					break;
+
+			}
+			break;
+
+		case 'friendly':
+			switch ($('#mood').val()) {
+				case 'withdrawn':
+					if (roll < 5) text = 'strong yes';
+					else if (roll < 26) text = 'yes';
+					else if (roll < 86) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'guarded':
+					if (roll < 9) text = 'strong yes';
+					else if (roll < 39) text = 'yes';
+					else if (roll < 89) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'cautious':
+					if (roll < 11) text = 'strong yes';
+					else if (roll < 52) text = 'yes';
+					else if (roll < 92) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'neutral':
+					if (roll < 14) text = 'strong yes';
+					else if (roll < 65) text = 'yes';
+					else if (roll < 94) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'sociable':
+					if (roll < 17) text = 'strong yes';
+					else if (roll < 74) text = 'yes';
+					else if (roll < 95) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'helpful':
+					if (roll < 20) text = 'strong yes';
+					else if (roll < 83) text = 'yes';
+					else if (roll < 97) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'forthcoming':
+					if (roll < 24) text = 'strong yes';
+					else if (roll < 92) text = 'yes';
+					else if (roll < 99) text = 'no';
+					else text = 'strong no';
+					break;
+
+			}
+			break;
+
+		case 'peaceful':
+			switch ($('#mood').val()) {
+				case 'withdrawn':
+					if (roll < 5) text = 'strong yes';
+					else if (roll < 22) text = 'yes';
+					else if (roll < 84) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'guarded':
+					if (roll < 8) text = 'strong yes';
+					else if (roll < 34) text = 'yes';
+					else if (roll < 87) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'cautious':
+					if (roll < 10) text = 'strong yes';
+					else if (roll < 46) text = 'yes';
+					else if (roll < 90) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'neutral':
+					if (roll < 12) text = 'strong yes';
+					else if (roll < 57) text = 'yes';
+					else if (roll < 92) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'sociable':
+					if (roll < 15) text = 'strong yes';
+					else if (roll < 66) text = 'yes';
+					else if (roll < 94) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'helpful':
+					if (roll < 18) text = 'strong yes';
+					else if (roll < 77) text = 'yes';
+					else if (roll < 96) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'forthcoming':
+					if (roll < 22) text = 'strong yes';
+					else if (roll < 88) text = 'yes';
+					else if (roll < 99) text = 'no';
+					else text = 'strong no';
+					break;
+			}
+			break;
+
+		case 'neutral':
+			switch ($('#mood').val()) {
+				case 'withdrawn':
+					if (roll < 4) text = 'strong yes';
+					else if (roll < 18) text = 'yes';
+					else if (roll < 82) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'guarded':
+					if (roll < 7) text = 'strong yes';
+					else if (roll < 29) text = 'yes';
+					else if (roll < 85) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'cautious':
+					if (roll < 9) text = 'strong yes';
+					else if (roll < 40) text = 'yes';
+					else if (roll < 88) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'neutral':
+					if (roll < 11) text = 'strong yes';
+					else if (roll < 51) text = 'yes';
+					else if (roll < 91) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'sociable':
+					if (roll < 14) text = 'strong yes';
+					else if (roll < 62) text = 'yes';
+					else if (roll < 93) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'helpful':
+					if (roll < 17) text = 'strong yes';
+					else if (roll < 73) text = 'yes';
+					else if (roll < 95) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'forthcoming':
+					if (roll < 20) text = 'strong yes';
+					else if (roll < 84) text = 'yes';
+					else if (roll < 98) text = 'no';
+					else text = 'strong no';
+					break;
+			}
+			break;
+
+		case 'distrustful':
+			switch ($('#mood').val()) {
+				case 'withdrawn':
+					if (roll < 3) text = 'strong yes';
+					else if (roll < 14) text = 'yes';
+					else if (roll < 80) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'guarded':
+					if (roll < 10) text = 'strong yes';
+					else if (roll < 46) text = 'yes';
+					else if (roll < 91) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'cautious':
+					if (roll < 13) text = 'strong yes';
+					else if (roll < 61) text = 'yes';
+					else if (roll < 94) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'neutral':
+					if (roll < 16) text = 'strong yes';
+					else if (roll < 76) text = 'yes';
+					else if (roll < 96) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'sociable':
+					if (roll < 19) text = 'strong yes';
+					else if (roll < 82) text = 'yes';
+					else if (roll < 97) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'helpful':
+					if (roll < 22) text = 'strong yes';
+					else if (roll < 89) text = 'yes';
+					else if (roll < 98) text = 'no';
+					else text = 'strong no';
+					break;
+
+				case 'forthcoming':
+					if (roll < 26) text = 'strong yes';
+					else if (roll < 96) text = 'yes';
+					else if (roll < 100) text = 'no';
+					else text = 'strong no';
+					break;
+			}
+			break;
+
+			/*
+			   case 'hostile':
+
+			   case 'hated':
+			 */
+	}
+
+	return text;
+	}
 
 });
 -->
