@@ -17,6 +17,216 @@
 <script type="text/javascript">
 <!--
 $(document).bind("pageinit",function(){
+	function get_descriptor() {
+		var modifiers = new Array(
+			'superfluous',
+			'inept',
+			'pleasant',
+			'lethargic',
+			'jovial',
+			'addicted',
+			'banal',
+			'insensitive',
+			'defiant',
+			'shrewd',
+			'conformist',
+			'logical',
+			'titled',
+			'obnoxious',
+			'liberal',
+			'nefarious',
+			'subtle',
+			'inexperienced',
+			'insightful',
+			'compliant',
+			'sensible',
+			'reputable',
+			'prying',
+			'tactless',
+			'destitute',
+			'untrained',
+			'wicked',
+			'oblivious',
+			'fanatic',
+			'conniving',
+			'romantic',
+			'lazy',
+			'refined',
+			'plebeian',
+			'careful',
+			'unreasonable',
+			'pessimistic',
+			'indispensable',
+			'childish',
+			'alluring',
+			'skilled',
+			'solemn',
+			'scholarly',
+			'pious',
+			'defective',
+			'neglectful',
+			'habitual',
+			'conservative',
+			'uneducated',
+			'optimistic',
+			'lively',
+			'meek',
+			'uncouth',
+			'inconsiderate',
+			'affluent',
+			'forthright',
+			'helpful',
+			'willful',
+			'cultured',
+			'despondent',
+			'idealistic',
+			'unconcerned',
+			'indifferent',
+			'revolting',
+			'mindless',
+			'unsupportive',
+			'generous',
+			'fickle',
+			'curious',
+			'passionate',
+			'rational',
+			'docile',
+			'elderly',
+			'touchy',
+			'devoted',
+			'coarse',
+			'cheery',
+			'sinful',
+			'needy',
+			'established',
+			'foolish',
+			'pragmatic',
+			'naive',
+			'dignified',
+			'unseemly',
+			'cunning',
+			'serene',
+			'privileged',
+			'pushy',
+			'dependable',
+			'delightful',
+			'thoughtful',
+			'glum',
+			'kind',
+			'righteous',
+			'miserly',
+			'hopeless',
+			'likable',
+			'corrupt',
+			'confident'
+			);
+
+	var nouns = new Array(
+			'nomad',
+			'missionary',
+			'villager',
+			'mediator',
+			'performer',
+			'witch',
+			'outcast',
+			'magus',
+			'crook',
+			'magister',
+			'merchant',
+			'mercenary',
+			'conscript',
+			'civilian',
+			'serf',
+			'expert',
+			'caretaker',
+			'worker',
+			'activist',
+			'brute',
+			'commoner',
+			'hermit',
+			'actor',
+			'hero',
+			'inquisitor',
+			'judge',
+			'orator',
+			'herald',
+			'champion',
+			'lord',
+			'ranger',
+			'chieftain',
+			'highwayman',
+			'cleric',
+			'villain',
+			'occultist',
+			'pioneer',
+			'fortune-hunter',
+			'slave',
+			'professor',
+			'reverend',
+			'burglar',
+			'governor',
+			'gunman',
+			'servant',
+			'thug',
+			'vicar',
+			'scrapper',
+			'clairvoyant',
+			'charmer',
+			'drifter',
+			'officer',
+			'monk',
+			'patriarch',
+			'globetrotter',
+			'journeyman',
+			'explorer',
+			'homemaker',
+			'shopkeeper',
+			'sniper',
+			'statesman',
+			'warden',
+			'recluse',
+			'crone',
+			'courtier',
+			'astrologer',
+			'outlaw',
+			'steward',
+			'adventurer',
+			'priest',
+			'duelist',
+			'adept',
+			'polymath',
+			'soldier',
+			'tradesman',
+			'jack-of-all-trades',
+			'bum',
+			'magician',
+			'entertainer',
+			'hitman',
+			'aristocrat',
+			'sorcerer',
+			'traveler',
+			'craftsman',
+			'wizard',
+			'preacher',
+			'laborer',
+			'vagrant',
+			'scientist',
+			'beggar',
+			'artisan',
+			'master',
+			'apprentice',
+			'ascetic',
+			'tradesman',
+			'rogue',
+			'ascendant',
+			'politician',
+			'superior',
+			'warrior'
+			);
+
+		return new Array(modifiers[Math.floor(Math.random()*modifiers.length)], nouns[Math.floor(Math.random()*nouns.length)]);
+	}
+
 	function get_motivation() {
 		var motivationverbs = new Array(
 			'advise',
@@ -229,239 +439,7 @@ $(document).bind("pageinit",function(){
 		return new Array(motivationverbs[Math.floor(Math.random()*motivationverbs.length)],motivationnouns[Math.floor(Math.random()*motivationnouns.length)]);
 	}
 
-	$('#generate').on('click', function() {
-		if ($('#demeanor').val() == 'random') {
-			var roll = Math.floor(Math.random()*8) + 1;
-			if (roll == 1) $('#demeanor').val('scheming').change();
-			else if (roll == 2) $('#demeanor').val('insane').change();
-			else if (roll == 3) $('#demeanor').val('friendly').change();
-			else if (roll == 4) $('#demeanor').val('hostile').change();
-			else if (roll == 5) $('#demeanor').val('inquisitive').change();
-			else if (roll == 6) $('#demeanor').val('knowing').change();
-			else if (roll == 7) $('#demeanor').val('mysterious').change();
-			else $('#demeanor').val('prejudiced').change();
-		}
-			
-		var modifiers = new Array(
-			'superfluous',
-			'inept',
-			'pleasant',
-			'lethargic',
-			'jovial',
-			'addicted',
-			'banal',
-			'insensitive',
-			'defiant',
-			'shrewd',
-			'conformist',
-			'logical',
-			'titled',
-			'obnoxious',
-			'liberal',
-			'nefarious',
-			'subtle',
-			'inexperienced',
-			'insightful',
-			'compliant',
-			'sensible',
-			'reputable',
-			'prying',
-			'tactless',
-			'destitute',
-			'untrained',
-			'wicked',
-			'oblivious',
-			'fanatic',
-			'conniving',
-			'romantic',
-			'lazy',
-			'refined',
-			'plebeian',
-			'careful',
-			'unreasonable',
-			'pessimistic',
-			'indispensable',
-			'childish',
-			'alluring',
-			'skilled',
-			'solemn',
-			'scholarly',
-			'pious',
-			'defective',
-			'neglectful',
-			'habitual',
-			'conservative',
-			'uneducated',
-			'optimistic',
-			'lively',
-			'meek',
-			'uncouth',
-			'inconsiderate',
-			'affluent',
-			'forthright',
-			'helpful',
-			'willful',
-			'cultured',
-			'despondent',
-			'idealistic',
-			'unconcerned',
-			'indifferent',
-			'revolting',
-			'mindless',
-			'unsupportive',
-			'generous',
-			'fickle',
-			'curious',
-			'passionate',
-			'rational',
-			'docile',
-			'elderly',
-			'touchy',
-			'devoted',
-			'coarse',
-			'cheery',
-			'sinful',
-			'needy',
-			'established',
-			'foolish',
-			'pragmatic',
-			'naive',
-			'dignified',
-			'unseemly',
-			'cunning',
-			'serene',
-			'privileged',
-			'pushy',
-			'dependable',
-			'delightful',
-			'thoughtful',
-			'glum',
-			'kind',
-			'righteous',
-			'miserly',
-			'hopeless',
-			'likable',
-			'corrupt',
-			'confident'
-			);
-
-	var nouns = new Array(
-			'nomad',
-			'missionary',
-			'villager',
-			'mediator',
-			'performer',
-			'witch',
-			'outcast',
-			'magus',
-			'crook',
-			'magister',
-			'merchant',
-			'mercenary',
-			'conscript',
-			'civilian',
-			'serf',
-			'expert',
-			'caretaker',
-			'worker',
-			'activist',
-			'brute',
-			'commoner',
-			'hermit',
-			'actor',
-			'hero',
-			'inquisitor',
-			'judge',
-			'orator',
-			'herald',
-			'champion',
-			'lord',
-			'ranger',
-			'chieftain',
-			'highwayman',
-			'cleric',
-			'villain',
-			'occultist',
-			'pioneer',
-			'fortune-hunter',
-			'slave',
-			'professor',
-			'reverend',
-			'burglar',
-			'governor',
-			'gunman',
-			'servant',
-			'thug',
-			'vicar',
-			'scrapper',
-			'clairvoyant',
-			'charmer',
-			'drifter',
-			'officer',
-			'monk',
-			'patriarch',
-			'globetrotter',
-			'journeyman',
-			'explorer',
-			'homemaker',
-			'shopkeeper',
-			'sniper',
-			'statesman',
-			'warden',
-			'recluse',
-			'crone',
-			'courtier',
-			'astrologer',
-			'outlaw',
-			'steward',
-			'adventurer',
-			'priest',
-			'duelist',
-			'adept',
-			'polymath',
-			'soldier',
-			'tradesman',
-			'jack-of-all-trades',
-			'bum',
-			'magician',
-			'entertainer',
-			'hitman',
-			'aristocrat',
-			'sorcerer',
-			'traveler',
-			'craftsman',
-			'wizard',
-			'preacher',
-			'laborer',
-			'vagrant',
-			'scientist',
-			'beggar',
-			'artisan',
-			'master',
-			'apprentice',
-			'ascetic',
-			'tradesman',
-			'rogue',
-			'ascendant',
-			'politician',
-			'superior',
-			'warrior'
-			);
-
-		var modifier = modifiers[Math.floor(Math.random()*modifiers.length)];
-		var noun = nouns[Math.floor(Math.random()*nouns.length)];
-
-		var motivation = new Array();
-		var curr;
-		var currnouns = new Array();
-		for (var i = 0; i < 3; i++) {
-			do curr = get_motivation();
-			while ($.inArray(curr[1], currnouns) !== -1);
-			currnouns.push(curr[1]); // so we don't duplicate
-
-			motivation[i] = curr;
-		}
-
+	function get_powerlevel() {
 		var roll = Math.floor(Math.random()*100) + 1;
 		var powerlevel;
 		switch($("input[name='rlevel']:checked").val()) {
@@ -505,6 +483,36 @@ $(document).bind("pageinit",function(){
 				else powerlevel = 'much stronger than party';
 				break;
 		}
+		return powerlevel;
+	}
+
+	$('#generate').on('click', function() {
+		if ($('#demeanor').val() == 'random') {
+			var roll = Math.floor(Math.random()*8) + 1;
+			if (roll == 1) $('#demeanor').val('scheming').change();
+			else if (roll == 2) $('#demeanor').val('insane').change();
+			else if (roll == 3) $('#demeanor').val('friendly').change();
+			else if (roll == 4) $('#demeanor').val('hostile').change();
+			else if (roll == 5) $('#demeanor').val('inquisitive').change();
+			else if (roll == 6) $('#demeanor').val('knowing').change();
+			else if (roll == 7) $('#demeanor').val('mysterious').change();
+			else $('#demeanor').val('prejudiced').change();
+		}
+			
+		var descriptor = get_descriptor();
+		var powerlevel = get_powerlevel();
+
+		var motivation = new Array();
+		var curr;
+		var currnouns = new Array();
+		for (var i = 0; i < 3; i++) {
+			do curr = get_motivation();
+			while ($.inArray(curr[1], currnouns) !== -1);
+			currnouns.push(curr[1]); // so we don't duplicate
+
+			motivation[i] = curr;
+		}
+
 
 		// this is kind of a shitty way to do it
 		// but better than not acknowleding the binary at all?
@@ -513,6 +521,7 @@ $(document).bind("pageinit",function(){
 			if (Math.floor(Math.random()*2) == 0) gender = 'male';
 			else gender = 'female';
 		} else gender = $("input[name='gender']:checked").val();
+		var name = generate_name($('#source').val() + '-' + gender);
 
 		$('.npc').remove(); // so you can refresh
 		$('.response').remove();
@@ -522,11 +531,11 @@ $(document).bind("pageinit",function(){
 		$(npc).addClass('npc');
 		var html = '<div class="ui-corner-all">' +
 '<div class="ui-bar ui-bar-a">' +
-'<h2 id="name">' + generate_name($('#source').val() + '-' + gender) + '</h2>' +
+'<h2 id="name">' + name + '</h2>' +
 '</div>' +
 '<div class="ui-body ui-body-a">' +
 '<ul data-role="listview" data-inset="true">' + 
-'<li id="descriptor">' + modifier + ' ' + noun + '</li>' + 
+'<li id="descriptor">' + descriptor[0] + ' ' + descriptor[1] + '</li>' + 
 '<li id="powerlevel">' + powerlevel + '</li>' + 
 '</ul>' +
 '<h3>Motivations</h3>' +
