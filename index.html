@@ -30,7 +30,9 @@ $(document).bind("pageinit",function(){
 			for (var i = 0; i < localStorage.length; i++) {
 				// maybe i isn't necessary? seems easier though
 				tmp = JSON.parse(localStorage.getItem(localStorage.key(i)));
-				list += '<li id="saved' + i + '"><a href="#">' + tmp['name'] + '</a><a href="#" class="delete">delete</a></li>';
+				list += '<li id="saved' + i + '"><a href="#"><h2>' + tmp['name'] + '</h2>';
+				if (tmp['title']) list += '<p>' + tmp['title'] + '</p>';
+				list += '</a><a href="#" class="delete">delete</a></li>';
 			}
 		}
 
