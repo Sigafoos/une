@@ -912,6 +912,8 @@ $(document).bind("pageinit",function(){
 			npc['mood'] = $('#mood a').html();
 			npc['discussion'] = $('#discussion a').html();
 			npc['currnouns'] = currnouns;
+			npc['title'] = $('#title a').html();
+			if (npc['title'] == '(optional title/identifier)') delete(npc['title']);
 
 			localStorage.setItem(npc['id'],JSON.stringify(npc));
 			update_sidebar();
@@ -924,6 +926,20 @@ $(document).bind("pageinit",function(){
 		$('#name a').html(npc['name']);
 		$('#save').removeAttr('disabled');
 		$('#customname').popup('close');
+	});
+
+	$('#customtitle').submit(function(event){
+		event.preventDefault();
+		if ($('#newtitle').val() == '') {
+			delete(npc['title']);
+			$('#title a').html('(optional title/identifier)');
+		} else {
+			npc['title'] = $('#newtitle').val();
+			$('#title a').html(npc['title']);
+		}
+
+		$('#save').removeAttr('disabled');
+		$('#customtitle').popup('close');
 	});
 
 	}
@@ -1348,7 +1364,16 @@ $(document).bind("pageinit",function(){
 </form>
 </div>
 
-<!--here---->
+<div data-role="popup" id="customtitle" data-overlay-theme="a">
+<form>
+<div style="padding:10px">
+<h3>Edit name</h3>
+<label for="newtitle">New title</label>
+<input type="text" name="newtitle" id="newtitle" placeholder="mayor, evil wizard, etc">
+<button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Change</button>
+</div>
+</form>
+</div>
 </div>
 </body>
 </html>
