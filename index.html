@@ -799,6 +799,9 @@ $(document).bind("pageinit",function(){
 		$('#demeanor').val(data['demeanor']).change();
 		$('#' + data['gender']).attr('checked');
 		$('#source').val(data['source']).change();
+		var title;
+		if (npc['title']) title = npc['title'];
+		else title = '(optional title/identifier)';
 
 		$('.npc').remove(); // so you can refresh
 		$('.response').remove();
@@ -809,6 +812,7 @@ $(document).bind("pageinit",function(){
 		var html = '<ul data-role="listview" data-icon="refresh" data-split-icon="edit" data-inset="true">' + 
 '<li data-role="list-divider">Name</li>' +
 '<li id="name"><a href="#">' + data['name'] + '</a><a href="#customname" data-rel="popup" data-position-to="window" data-transition="pop">edit</a></li>' +
+'<li id="title" data-icon="edit"><a href="#customtitle" data-rel="popup" data-position-to="window" data-transition="pop">' + title + '</a></li>' +
 '<li data-role="list-divider">Descriptor</li>' +
 '<li id="descriptor"><a href="#">' + data['descriptor'] + '</a></li>' + 
 '<li data-role="list-divider">Power level</li>' + 
@@ -1247,7 +1251,7 @@ $(document).bind("pageinit",function(){
 </script>
 </head>
 <body>
-<div data-role="page" id="form">
+<div data-role="page" id="form" class="ui-responsive-panel">
 <div data-role="header">
 <a href="#menu" id="menubutton" class="ui-btn-left ui-btn ui-btn-icon-left ui-icon-bars ui-btn-icon-notext ui-nodisc-icon ui-alt-icon">Menu</a>
 <h1>UNE Webapp Generator</h1>
@@ -1327,7 +1331,7 @@ $(document).bind("pageinit",function(){
 
 <div data-role="footer" data-position="fixed"><h2>All content &copy; <a href="http://conjecturegames.com/une/">Conjecture Games</a></h2></div>
 
-<div data-role="panel" id="menu" data-display="overlay" data-theme="a">
+<div data-role="panel" id="menu" data-display="push" data-theme="a" data-position-fixed="true">
 <h2 class="ui-bar ui-bar-a">Load NPC</h2>
 <ul data-role="listview" data-split-icon="delete">
 </ul>
@@ -1342,6 +1346,9 @@ $(document).bind("pageinit",function(){
 <button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-icon-left ui-icon-check">Change</button>
 </div>
 </form>
+</div>
+
+<!--here---->
 </div>
 </body>
 </html>
