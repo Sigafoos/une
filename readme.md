@@ -26,6 +26,8 @@ In the sidebar you can export the data as a stringified JSON. You can then email
 The key for each NPC is the timestamp it was created. It will overwrite any existing NPC with that timestamp, so you can make edits on Device B and re-import to Device A.
 
 ## Planned features
+* "Notes" section for NPCs (for recording developments of NPCs, etc)
+* NPC Response Module (yes/no answers) from original UNE (code is ~50% there already)
 * Folders of NPCs
 * Lots more language options (everything from [Kate Monk's Onomastikon](http://tekeli.li/onomastikon/))
 * Possible interaction with [BOLD](https://github.com/sigafoos/bold) (down the line, when I actually make BOLD)
