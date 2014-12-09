@@ -1,4 +1,6 @@
 # Universal NPC Emulator
+Live version: [http://une.danconley.net](http://une.danconley.net)
+
 From the rulebook (available for [pay-what-you-want at DriveThruRPG](http://rpg.drivethrustuff.com/product/134163/UNE-The-Universal-NPC-Emulator-rev)):
 
 > UNE is a supplement for any pen and paper roleplaying game to help facilitate the creation and playing of a non-player character (“NPC”) to something  with the depth of a true character.  
