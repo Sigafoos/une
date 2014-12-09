@@ -24,8 +24,9 @@ $(document).bind("pageinit",function(){
 		var list = '';
 		var tmp;
 
+		list = '<li data-role="list-divider">Load saved NPC</li>'
 		if (localStorage.length == 0) {
-			list = '<li>No saved NPCs</li>';
+			list += '<li>No saved NPCs</li>';
 		} else {
 			for (var i = 0; i < localStorage.length; i++) {
 				// maybe i isn't necessary? seems easier though
@@ -51,7 +52,13 @@ $(document).bind("pageinit",function(){
 			$(this).parent().fadeOut(400);
 			setTimeout(update_sidebar,400);
 		});
-	
+
+		$('#triggerexport').on('click',function(event){
+			event.preventDefault();
+			$('#exportdata').html(JSON.stringify(localStorage));
+			$('#export').popup('open');
+		});
+
 	}
 
 	// do it when the page loads
@@ -1350,9 +1357,12 @@ $(document).bind("pageinit",function(){
 <div data-role="footer" data-position="fixed"><h2>All content &copy; <a href="http://conjecturegames.com/une/">Conjecture Games</a></h2></div>
 
 <div data-role="panel" id="menu" data-display="push" data-theme="a" data-position-fixed="true">
-<h2 class="ui-bar ui-bar-a">Load NPC</h2>
 <ul data-role="listview" data-split-icon="delete">
 </ul>
+<div class="ui-grid-a" style="padding-top:30px">
+<div class="ui-block-a"><a href="#export" class="ui-btn ui-corner-all" id="triggerexport" data-rel="popup" data-position-to="window" data-transition="pop">export</a></div>
+<div class="ui-block-b"><a href="import" class="ui-btn ui-corner-all" id="triggerimport" data-rel="popup" data-position-to="window" data-transition="pop">import</a></div>
+</div>
 </div>
 
 <div data-role="popup" id="customname" data-overlay-theme="a">
@@ -1376,6 +1386,19 @@ $(document).bind("pageinit",function(){
 </div>
 </form>
 </div>
+
+<div data-role="popup" id="export" data-overlay-theme="a">
+<div style="padding:10px">
+<h3>Data export</h3>
+<form>
+<label for="exportdata" class="ui-hidden-accessible">Exported text</label>
+<textarea cols="40" rows="8" name="exportdata" id="exportdata"></textarea>
+</form>
+<a href="#" class="ui-btn ui-corner-all" data-rel="back">close</a>
+</div>
+</div>
+
+
 </div>
 </body>
 </html>
