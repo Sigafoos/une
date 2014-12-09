@@ -13,21 +13,22 @@ From the rulebook (available for [pay-what-you-want at DriveThruRPG](http://rpg.
 * One click generation of NPCs
 * Specify parameters (how friendly, ethnic source of name, etc)
 * Refresh any section you don't like
+* Add title/identifier, ie "mayor", "evil mage"
 * Save/load NPCs for later
+* Export/import to other devices
 
 ### Saving
 Saving uses `localStorage`, available on all modern browsers. It's tied to the device you're using, so Safari on an iPad will always have those NPCs, as will Chrome on a PC, but never the twain shall meet.
 
+### Export/import
+In the sidebar you can export the data as a stringified JSON. You can then email/Pushbullet/whatever the text and import on another device.
+
+The key for each NPC is the timestamp it was created. It will overwrite any existing NPC with that timestamp, so you can make edits on Device B and re-import to Device A.
+
 ## Planned features
-* Import/export saved NPCs
-* Delete saved NPCs
-* Edit name instead of using random
-* Add notes/identifier to a NPC (ie "Phandalin townmaster") to remember how you're using them
+* Folders of NPCs
 * Lots more language options (everything from [Kate Monk's Onomastikon](http://tekeli.li/onomastikon/))
 * Possible interaction with [BOLD](https://github.com/sigafoos/bold) (down the line, when I actually make BOLD)
 * Other stuff I'm forgetting
-
-## Known issues
-* Renaming a saved character gets weird. I think it auto-saves a new name, even if you don't click save.
 
 Webapp created by [Dan Conley](http://www.danconley.net). 
